@@ -1,0 +1,295 @@
+/* GNB (Global Navigation Bar) 메인 컨테이너 */
+.gnb {
+  /* 화면 최상단에 고정 (스크롤해도 항상 보임) */
+  position: fixed;
+  /* 화면 최상단에 위치 */
+  top: 0;
+  /* 화면 왼쪽 끝에서 시작 */
+  left: 0;
+  /* 화면 전체 너비를 차지 */
+  width: 100%;
+  /* 다른 요소들 위에 표시되도록 높은 z-index 설정 */
+  z-index: 1000;
+  /* 어두운 회색 배경에 90% 불투명도 적용 (다크 모드) */
+  background: rgba(26, 26, 26, 0.9);
+  /* 뒷배경을 10px만큼 흐리게 처리 (글래스모피즘 효과) */
+  backdrop-filter: blur(10px);
+  /* 하단에 얇고 밝은 테두리 추가 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* GNB 내부 콘텐츠 컨테이너 */
+.gnb-container {
+  /* 최대 너비를 1280px로 제한 (대형 화면에서 너무 넓어지지 않도록) */
+  max-width: 1280px;
+  /* 좌우 중앙 정렬 */
+  margin: 0 auto;
+  /* 내부 여백 (위아래 1rem, 좌우 2rem) */
+  padding: 1rem 2rem;
+  /* flexbox 레이아웃 사용 */
+  display: flex;
+  /* 왼쪽/오른쪽 영역을 양 끝으로 배치 */
+  justify-content: space-between;
+  /* 자식 요소들을 세로 중앙 정렬 */
+  align-items: center;
+}
+
+/* GNB 왼쪽 영역 (주요 네비게이션 링크) */
+.gnb-left {
+  /* flexbox 레이아웃 사용 */
+  display: flex;
+  /* 자식 요소들 사이에 2rem 간격 */
+  gap: 2rem;
+  /* 자식 요소들을 세로 중앙 정렬 */
+  align-items: center;
+}
+
+/* GNB 오른쪽 영역 (로그인/회원가입 버튼) */
+.gnb-right {
+  /* flexbox 레이아웃 사용 */
+  display: flex;
+  /* 자식 요소들 사이에 1rem 간격 (왼쪽보다 좁음) */
+  gap: 1rem;
+  /* 자식 요소들을 세로 중앙 정렬 */
+  align-items: center;
+}
+
+/* GNB 네비게이션 링크 기본 스타일 */
+.gnb-link {
+  /* 흰색에 80% 불투명도 적용 */
+  color: rgba(255, 255, 255, 0.8);
+  /* 링크 밑줄 제거 */
+  text-decoration: none;
+  /* 폰트 크기 1rem (16px) */
+  font-size: 1rem;
+  /* 폰트 굵기 500 (medium) */
+  font-weight: 500;
+  /* 내부 여백 (위아래 0.5rem, 좌우 1rem) */
+  padding: 0.5rem 1rem;
+  /* 모서리를 6px만큼 둥글게 */
+  border-radius: 6px;
+  /* 모든 속성 변화를 0.3초 동안 부드럽게 전환 */
+  transition: all 0.3s ease;
+  /* ::after 가상 요소를 위한 기준점 설정 */
+  position: relative;
+}
+
+/* GNB 링크에 마우스를 올렸을 때 */
+.gnb-link:hover {
+  /* 완전히 불투명한 흰색으로 변경 */
+  color: white;
+  /* 흰색에 10% 불투명도의 배경 추가 */
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 현재 활성화된 페이지의 링크 스타일 */
+.gnb-link.active {
+  /* 완전히 불투명한 흰색으로 변경 */
+  color: white;
+  /* 파란 보라색에 30% 불투명도의 배경 */
+  background: rgba(102, 126, 234, 0.3);
+}
+
+/* 활성화된 링크 하단에 네온 효과 밑줄 추가 */
+.gnb-link.active::after {
+  /* 빈 콘텐츠 (가상 요소 생성) */
+  content: '';
+  /* 부모 요소(.gnb-link) 기준으로 절대 위치 */
+  position: absolute;
+  /* 부모 요소 하단에 위치 */
+  bottom: 0;
+  /* 수평 중앙에서 시작 */
+  left: 50%;
+  /* 정확히 중앙으로 이동 */
+  transform: translateX(-50%);
+  /* 부모 요소 너비의 60% */
+  width: 60%;
+  /* 높이 2px */
+  height: 2px;
+  /* 청록색에서 녹색으로 그라데이션 */
+  background: linear-gradient(90deg, #00ffff, #00ff88);
+  /* 네온 효과를 위한 그림자 */
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+/* 로그인/회원가입 버튼 기본 스타일 */
+.auth-link {
+  /* 거의 불투명한 흰색 텍스트 */
+  color: rgba(26, 13, 102, 0.9);
+  /* 링크 밑줄 제거 */
+  text-decoration: none;
+  /* 네비게이션 링크보다 약간 작은 폰트 */
+  font-size: 0.9rem;
+  /* 폰트 굵기 500 (medium) */
+  font-weight: 500;
+  /* 내부 여백 (위아래 0.5rem, 좌우 1.2rem) */
+  padding: 0.5rem 1.2rem;
+  /* 모서리를 6px만큼 둥글게 */
+  border-radius: 6px;
+  /* 흰색에 30% 불투명도의 테두리 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* 모든 속성 변화를 0.3초 동안 부드럽게 전환 */
+  transition: all 0.3s ease;
+  /* 투명한 배경 */
+  background: transparent;
+}
+
+/* 로그인/회원가입 버튼에 마우스를 올렸을 때 */
+.auth-link:hover {
+  /* 파란 보라색에 20% 불투명도의 배경 */
+  background: rgba(100, 108, 255, 0.2);
+  /* 파란 보라색에 50% 불투명도의 테두리 */
+  border-color: rgba(100, 108, 255, 0.5);
+  /* 완전히 불투명한 흰색 텍스트 */
+  color: white;
+}
+
+/* 회원가입 버튼 강조 스타일 (로그인보다 더 눈에 띄게) */
+.auth-link.signup {
+  /* 파란 보라색에 30% 불투명도의 배경 (기본 상태에서도 색상 있음) */
+  background: rgba(100, 108, 255, 0.3);
+  /* 파란 보라색에 50% 불투명도의 테두리 */
+  border-color: rgba(100, 108, 255, 0.5);
+}
+
+/* 회원가입 버튼에 마우스를 올렸을 때 */
+.auth-link.signup:hover {
+  /* 파란 보라색에 50% 불투명도의 배경 (더 진하게) */
+  background: rgba(100, 108, 255, 0.5);
+  /* 파란 보라색에 70% 불투명도의 테두리 (더 진하게) */
+  border-color: rgba(100, 108, 255, 0.7);
+}
+
+/* 사용자 정보 표시 영역 (로그인 후 사용자 이름 표시) */
+.gnb-user-info {
+  /* 흰색에 90% 불투명도의 텍스트 */
+  color: rgba(255, 255, 255, 0.9);
+  /* 폰트 크기 */
+  font-size: 0.9rem;
+  /* 폰트 굵기 500 (medium) */
+  font-weight: 500;
+  /* 내부 여백 */
+  padding: 0.5rem 1rem;
+  /* 모서리를 6px만큼 둥글게 */
+  border-radius: 6px;
+  /* 흰색에 10% 불투명도의 배경 */
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 로그아웃 버튼 기본 스타일 */
+.logout-button {
+  /* 흰색에 80% 불투명도의 텍스트 */
+  color: rgba(255, 255, 255, 0.8);
+  /* 링크 밑줄 제거 */
+  text-decoration: none;
+  /* 폰트 크기 */
+  font-size: 0.9rem;
+  /* 폰트 굵기 500 (medium) */
+  font-weight: 500;
+  /* 내부 여백 */
+  padding: 0.5rem 1.2rem;
+  /* 모서리를 6px만큼 둥글게 */
+  border-radius: 6px;
+  /* 흰색에 30% 불투명도의 테두리 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* 모든 속성 변화를 0.3초 동안 부드럽게 전환 */
+  transition: all 0.3s ease;
+  /* 투명한 배경 */
+  background: transparent;
+  /* 마우스 커서를 포인터로 변경 */
+  cursor: pointer;
+}
+
+/* 로그아웃 버튼에 마우스를 올렸을 때 */
+.logout-button:hover {
+  /* 빨간색에 20% 불투명도의 배경 */
+  background: rgba(244, 67, 54, 0.2);
+  /* 빨간색에 50% 불투명도의 테두리 */
+  border-color: rgba(244, 67, 54, 0.5);
+  /* 완전히 불투명한 흰색 텍스트 */
+  color: white;
+}
+
+/* 사용자가 라이트 모드를 선호하는 경우 적용되는 스타일 */
+@media (prefers-color-scheme: light) {
+  /* GNB 배경을 밝은 색상으로 변경 */
+  .gnb {
+    /* 밝은 하늘색 배경에 90% 불투명도 */
+    background: rgba(196, 216, 252, 0.9);
+    /* 하단 테두리를 어두운 색으로 변경 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* 네비게이션 링크 텍스트를 어두운 색으로 */
+  .gnb-link {
+    /* 어두운 회색에 80% 불투명도 */
+    color: rgba(26, 26, 26, 0.8);
+  }
+
+  /* 네비게이션 링크 호버 시 */
+  .gnb-link:hover {
+    /* 완전히 불투명한 어두운 회색 */
+    color: #1a1a1a;
+    /* 검은색에 5% 불투명도의 배경 */
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  /* 활성화된 네비게이션 링크 */
+  .gnb-link.active {
+    /* 완전히 불투명한 어두운 회색 */
+    color: #1a1a1a;
+    /* 하늘색에 20% 불투명도의 배경 */
+    background: rgba(79, 195, 247, 0.2);
+  }
+
+  /* 로그인/회원가입 버튼 테두리 색상 변경 */
+  .auth-link {
+    /* 어두운 회색에 30% 불투명도의 테두리 */
+    border-color: rgba(26, 26, 26, 0.3);
+  }
+
+  /* 로그인/회원가입 버튼 호버 시 */
+  .auth-link:hover {
+    /* 하늘색에 20% 불투명도의 배경 */
+    background: rgba(79, 195, 247, 0.2);
+    /* 하늘색에 50% 불투명도의 테두리 */
+    border-color: rgba(79, 195, 247, 0.5);
+  }
+
+  /* 사용자 정보 표시 영역 (라이트 모드) */
+  .gnb-user-info {
+    /* 어두운 회색에 90% 불투명도의 텍스트 */
+    color: rgba(26, 26, 26, 0.9);
+    /* 하늘색에 15% 불투명도의 배경 */
+    background: rgba(79, 195, 247, 0.15);
+  }
+
+  /* 로그아웃 버튼 (라이트 모드) */
+  .logout-button {
+    /* 어두운 회색 텍스트 */
+    color: rgba(26, 26, 26, 0.8);
+    /* 어두운 회색에 30% 불투명도의 테두리 */
+    border-color: rgba(26, 26, 26, 0.3);
+  }
+
+  /* 로그아웃 버튼 호버 시 (라이트 모드) */
+  .logout-button:hover {
+    /* 빨간색에 20% 불투명도의 배경 */
+    background: rgba(244, 67, 54, 0.2);
+    /* 빨간색에 50% 불투명도의 테두리 */
+    border-color: rgba(244, 67, 54, 0.5);
+    /* 빨간색 텍스트 */
+    color: rgba(244, 67, 54, 1);
+  }
+}
+
+/* 사용자가 다크 모드를 선호하는 경우 적용되는 스타일 */
+@media (prefers-color-scheme: dark) {
+  /* GNB 다크 모드 배경 설정 */
+  .gnb {
+    /* 어두운 회색 배경에 90% 불투명도 */
+    background: rgba(26, 26, 26, 0.9);
+    /* 밝은 색의 하단 테두리 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
