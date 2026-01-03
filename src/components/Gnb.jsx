@@ -1,6 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import './Gnb.css';
+// 기본 사용자 프로필 이미지 (로그인 시 표시)
+import defaultUserImage from '../assets/default_user.png';
 
 function GNB() {
   const navigate = useNavigate();
@@ -66,9 +68,15 @@ function GNB() {
               // 로딩 중: 인증 상태 확인 중
               <span className="gnb-loading">로딩 중...</span>
             ) : isAuthenticated ? (
-              // 로그인된 상태: 사용자 이름과 로그아웃 버튼 표시
+              // 로그인된 상태: 사용자 프로필 이미지, 이름, 로그아웃 버튼 표시
               <>
                 <span className="gnb-user-info">
+                  {/* 사용자 프로필 이미지 (카카오 프로필 또는 기본 이미지) */}
+                  <img
+                    src={user?.profileImage || defaultUserImage}
+                    alt="프로필"
+                    className="gnb-user-avatar"
+                  />
                   {user?.name}님
                 </span>
                 <button onClick={handleLogout} className="auth-link logout-button">

@@ -12,10 +12,11 @@
 #
 # ================================================
 
+# 워크플로우 이름 (GitHub Actions 탭에서 이 이름으로 표시됨)
 name: Deploy Frontend to Lightsail
 
 # ========================================
-# 트리거 설정
+# 트리거 설정: 언제 이 워크플로우를 실행할지 정의
 # ========================================
 on:
   # main 브랜치에 push될 때 실행
@@ -27,84 +28,127 @@ on:
   workflow_dispatch:
 
 # ========================================
-# 환경 변수
+# 환경 변수: 워크플로우 전체에서 사용할 수 있는 변수들
 # ========================================
 env:
-  # GitHub Container Registry 관련
+  # GHCR(GitHub Container Registry) 주소
+  # - GitHub에서 제공하는 무료 Docker 이미지 저장소
+  # - ghcr.io는 GitHub Container Registry의 도메인 주소
   REGISTRY: ghcr.io
-  # 이미지 이름: ghcr.io/사용자명/이미지명
-  # github.repository는 "사용자명/저장소명" 형식
+
+  # Docker 이미지 이름
+  # - ${{ github.repository }}는 GitHub이 자동으로 제공하는 값
+  # - 형식: "사용자명/저장소명" (예: icesnake72/sbs)
+  # - 최종 이미지 경로: ghcr.io/icesnake72/sbs:latest
   IMAGE_NAME: ${{ github.repository }}
 
 # ========================================
-# 작업 정의
+# 작업(Job) 정의: 실제로 실행할 작업들의 목록
 # ========================================
 jobs:
   # ========================================
   # 빌드 및 푸시 작업
   # ========================================
+  # 빌드와 배포를 분리하면:
+  # - 빌드 실패 시 배포가 실행되지 않음
+  # - 배포만 재시도할 수 있음
+  # - 병렬 배포가 가능 (여러 서버에 동시 배포)
   build-and-push:
-    name: Build and Push Docker Image
+    name: 빌드 및 GHCR 푸시
+    # 실행 환경: GitHub이 제공하는 Ubuntu 최신 버전 서버에서 실행
     runs-on: ubuntu-latest
 
     # GHCR에 푸시하기 위한 권한 설정
     permissions:
-      contents: read
-      packages: write
+      contents: read      # 저장소 코드를 읽을 수 있는 권한
+      packages: write     # GHCR에 Docker 이미지를 업로드할 수 있는 권한
 
     steps:
       # ========================================
-      # 1. 코드 체크아웃
+      # 1. 코드 체크아웃 (GitHub 저장소에서 코드 가져오기)
       # ========================================
-      - name: Checkout repository
+      - name: 코드 체크아웃
+        # actions/checkout@v4: GitHub에서 제공하는 공식 액션
+        # - 현재 저장소의 코드를 작업 환경으로 복사합니다
+        # - @v4는 버전 4를 의미 (가장 최신 안정 버전)
         uses: actions/checkout@v4
 
       # ========================================
       # 2. Docker Buildx 설정
       # ========================================
-      # 멀티 플랫폼 빌드 및 캐시 지원을 위해 Buildx 사용
-      - name: Set up Docker Buildx
+      - name: Docker Buildx 설정
+        # docker/setup-buildx-action@v3: Docker 이미지 빌드 도구 설정
+        # - Buildx: Docker의 확장 빌드 기능 (캐싱, 멀티플랫폼 빌드 등 지원)
+        # - 더 빠르고 효율적인 이미지 빌드 가능
         uses: docker/setup-buildx-action@v3
 
       # ========================================
-      # 3. GitHub Container Registry 로그인
+      # 3. GitHub Container Registry(GHCR)에 로그인
       # ========================================
-      - name: Log in to GitHub Container Registry
+      - name: GHCR 로그인
+        # docker/login-action@v3: Docker 레지스트리 로그인 액션
         uses: docker/login-action@v3
         with:
+          # 로그인할 레지스트리 주소
           registry: ${{ env.REGISTRY }}
-          # GitHub Actions에서 자동으로 제공하는 토큰 사용
+
+          # 사용자명
+          # - ${{ github.actor }}는 GitHub이 자동으로 제공
+          # - 현재 작업을 실행한 사용자의 GitHub 아이디
           username: ${{ github.actor }}
+
+          # 비밀번호 (GitHub Token)
+          # - ${{ secrets.GITHUB_TOKEN }}는 GitHub이 자동으로 생성
+          # - 별도로 만들 필요 없음 (자동 제공)
+          # - GHCR에 이미지를 업로드할 권한 포함
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # ========================================
-      # 4. Docker 메타데이터 추출
+      # 4. Docker 이미지 메타데이터 생성
       # ========================================
-      # 이미지 태그와 라벨 자동 생성
-      - name: Extract Docker metadata
+      - name: Docker 메타데이터 추출
+        # id: meta - 이 단계의 출력값을 나중에 사용하기 위한 식별자
         id: meta
+        # docker/metadata-action@v5: Docker 이미지 태그와 라벨을 자동 생성
         uses: docker/metadata-action@v5
         with:
+          # 이미지 이름 지정
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+          # 자동으로 생성할 태그 규칙
           tags: |
-            # latest 태그
-            type=raw,value=latest
-            # 커밋 SHA 태그 (롤백용)
-            type=sha,prefix=
+            # 브랜치 이름으로 태그 (예: main)
+            type=ref,event=branch
+            # Git 커밋 SHA로 태그 (예: main-abc1234)
+            # - 특정 버전 추적에 유용
+            type=sha,prefix={{branch}}-
+            # main 브랜치일 경우 'latest' 태그 추가
+            # - 가장 최신 버전을 의미하는 표준 태그
+            type=raw,value=latest,enable={{is_default_branch}}
 
       # ========================================
-      # 5. Docker 이미지 빌드 및 푸시
+      # 5. Docker 이미지 빌드 및 GHCR에 업로드
       # ========================================
-      - name: Build and push Docker image
+      - name: Docker 이미지 빌드 및 푸시
+        # docker/build-push-action@v5: Docker 이미지를 빌드하고 푸시하는 액션
         uses: docker/build-push-action@v5
         with:
+          # 빌드 컨텍스트: 현재 디렉토리 (.)
           context: .
+
           # 프로덕션용 Dockerfile 사용
           file: ./Dockerfile.prod
+
+          # 빌드 후 레지스트리에 푸시할지 여부
           push: true
+
+          # 이미지에 붙일 태그들
           tags: ${{ steps.meta.outputs.tags }}
+
+          # 이미지 라벨 (메타데이터)
           labels: ${{ steps.meta.outputs.labels }}
-          # 빌드 캐시 사용 (빌드 속도 향상)
+
+          # 빌드 캐시 설정 (빌드 속도 향상)
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -112,90 +156,101 @@ jobs:
   # 배포 작업
   # ========================================
   deploy:
-    name: Deploy to Lightsail
+    name: Lightsail 서버 배포
     runs-on: ubuntu-latest
     # 빌드 작업이 완료된 후에 실행
     needs: build-and-push
 
     steps:
       # ========================================
-      # 1. Lightsail 서버에 SSH 접속하여 배포
+      # 1. 코드 체크아웃 (docker-compose.prod.yml 파일 사용을 위해)
       # ========================================
-      - name: Deploy to Lightsail via SSH
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      # ========================================
+      # 2. docker-compose.prod.yml 파일 전송
+      # ========================================
+      # SCP를 사용하여 파일 전송 (백엔드와 동일한 방식)
+      # - 파일이 Git으로 버전 관리되어 변경 이력 추적 가능
+      # - SSH 스크립트 내 cat으로 생성하는 것보다 안전하고 명확함
+      - name: docker-compose.prod.yml 전송
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.LIGHTSAIL_HOST }}
+          username: ${{ secrets.LIGHTSAIL_USER }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          port: 22
+          source: "docker-compose.prod.yml"
+          target: "/home/${{ secrets.LIGHTSAIL_USER }}/frontend/"
+
+      # ========================================
+      # 3. Lightsail 서버에 SSH 접속하여 배포
+      # ========================================
+      - name: Lightsail 서버 배포
+        # appleboy/ssh-action@v1.0.3: SSH를 통해 원격 서버에 명령을 실행하는 액션
         uses: appleboy/ssh-action@v1.0.3
         with:
-          # Lightsail 서버 IP (GitHub Secrets에 저장)
+          # Lightsail 서버 IP 주소
           host: ${{ secrets.LIGHTSAIL_HOST }}
-          # SSH 사용자명
-          username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          # SSH 개인 키 (GitHub Secrets에 저장)
+
+          # SSH 접속 사용자명 (백엔드와 동일한 Secret 이름 사용)
+          username: ${{ secrets.LIGHTSAIL_USER }}
+
+          # SSH Private Key (비밀 키)
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          # 실행할 명령어
+
+          # SSH 포트 번호 (명시적으로 지정)
+          port: 22
+
+          # 서버에서 실행할 배포 스크립트
           script: |
             echo "=========================================="
             echo "🚀 프론트엔드 배포 시작"
             echo "=========================================="
 
-            # GitHub Container Registry 로그인
-            # GHCR_TOKEN이 설정되어 있으면 사용, 없으면 패키지가 public이어야 함
-            echo "📦 GHCR 로그인 시도..."
-            if [ -n "${{ secrets.GHCR_TOKEN }}" ]; then
-              echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            else
-              echo "⚠️ GHCR_TOKEN이 없습니다. 패키지가 public으로 설정되어 있어야 합니다."
-            fi
+            # ===== 1. GitHub Container Registry(GHCR)에 로그인 =====
+            # GitHub Actions에서 자동 생성되는 GITHUB_TOKEN을 사용
+            # - 워크플로우 실행 시 토큰 값이 스크립트에 삽입되어 전달됨
+            # - 별도의 Personal Access Token 생성 불필요
+            echo "📦 GHCR 로그인 중..."
+            echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            # 프론트엔드 디렉토리로 이동 (없으면 생성)
-            FRONTEND_DIR="/home/${{ secrets.LIGHTSAIL_USERNAME }}/frontend"
+            # ===== 2. 프론트엔드 디렉토리로 이동 =====
+            # SCP action으로 이미 전송된 파일이 있는 디렉토리
+            FRONTEND_DIR="/home/${{ secrets.LIGHTSAIL_USER }}/frontend"
             mkdir -p $FRONTEND_DIR
             cd $FRONTEND_DIR
 
-            # docker-compose.prod.yml 파일 생성/업데이트
-            echo "📝 docker-compose.prod.yml 생성 중..."
-            cat > docker-compose.prod.yml << 'EOF'
-            services:
-              frontend:
-                image: ghcr.io/${{ github.repository }}:latest
-                container_name: prod-frontend
-                ports:
-                  - "80:80"
-                networks:
-                  - prod-network
-                healthcheck:
-                  test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
-                  interval: 30s
-                  timeout: 10s
-                  retries: 3
-                  start_period: 10s
-                logging:
-                  driver: "json-file"
-                  options:
-                    max-size: "10m"
-                    max-file: "3"
-                restart: unless-stopped
+            # ===== 3. docker-compose.prod.yml 파일 확인 =====
+            echo "📝 docker-compose.prod.yml 파일 확인 중..."
+            ls -lh $FRONTEND_DIR/docker-compose.prod.yml
 
-            networks:
-              prod-network:
-                external: true
-            EOF
-
-            # 최신 이미지 가져오기
+            # ===== 4. 최신 Docker 이미지 다운로드 =====
+            # docker compose pull: 레지스트리에서 최신 이미지를 다운로드
             echo "📥 최신 이미지 풀링 중..."
-            docker compose -f docker-compose.prod.yml pull
+            sudo docker compose -f docker-compose.prod.yml pull
 
-            # 기존 컨테이너 중지 및 새 컨테이너 시작
+            # ===== 5. 컨테이너 시작/재시작 (무중단 배포) =====
+            # docker compose up: 컨테이너 생성 및 시작
+            # - -d: 백그라운드 실행 (detached mode)
+            # - --force-recreate: 설정 변경이 없어도 컨테이너 재생성
             echo "🔄 컨테이너 재시작 중..."
-            docker compose -f docker-compose.prod.yml up -d --force-recreate
+            sudo docker compose -f docker-compose.prod.yml up -d --force-recreate
 
-            # 사용하지 않는 이미지 정리
+            # ===== 6. 사용하지 않는 이미지 정리 =====
+            # docker image prune: 불필요한 이미지 삭제로 디스크 공간 확보
+            # - -a: 모든 사용하지 않는 이미지 삭제
+            # - -f: 확인 없이 강제 삭제 (force)
             echo "🧹 사용하지 않는 이미지 정리 중..."
-            docker image prune -f
+            sudo docker image prune -af
 
-            # 배포 결과 확인
+            # ===== 7. 배포 결과 확인 =====
+            # docker compose ps: 실행 중인 컨테이너 상태 확인
             echo "=========================================="
             echo "✅ 배포 완료!"
             echo "=========================================="
-            docker ps | grep prod-frontend
+            sudo docker compose -f docker-compose.prod.yml ps
 
             # 헬스체크 대기
             echo "⏳ 헬스체크 대기 중 (10초)..."
@@ -217,35 +272,42 @@ jobs:
 # GitHub 저장소 → Settings → Secrets and variables → Actions
 # 에서 다음 시크릿들을 추가해야 합니다:
 #
+# 필수 Secrets:
+# ------------------------------------------------
 # 1. LIGHTSAIL_HOST
 #    - Lightsail 서버 IP 주소
 #    - 예: 16.184.53.118
 #
-# 2. LIGHTSAIL_USERNAME
+# 2. LIGHTSAIL_USER (백엔드와 동일한 이름 사용)
 #    - SSH 접속 사용자명
-#    - 예: ubuntu (기본값)
+#    - Amazon Linux: ec2-user
+#    - Ubuntu: ubuntu
 #
 # 3. LIGHTSAIL_SSH_KEY
 #    - Lightsail SSH 개인 키 전체 내용
 #    - -----BEGIN RSA PRIVATE KEY----- 부터
 #    - -----END RSA PRIVATE KEY----- 까지 전부 복사
 #
-# 4. GHCR_TOKEN (선택사항)
-#    - 패키지가 private인 경우에만 필요
-#    - 패키지를 public으로 설정하면 불필요
-#    - GitHub Personal Access Token (Classic)
-#    - 권한: read:packages, write:packages
-#    - 생성: GitHub → Settings → Developer settings → Personal access tokens
+# 자동 제공 (별도 설정 불필요):
+# ------------------------------------------------
+# - GITHUB_TOKEN: GitHub Actions가 자동으로 생성
+#   - GHCR에 이미지 push/pull 권한 포함
+#   - 워크플로우 실행 시 자동 제공되므로 별도 설정 불필요
 #
 # ================================================
-# 패키지 Public 설정 방법 (GHCR_TOKEN 대신 사용)
+# GITHUB_TOKEN 동작 원리
 # ================================================
 #
-# 1. GitHub 저장소 페이지 → 오른쪽 "Packages" 섹션 클릭
-# 2. 해당 패키지 클릭 → "Package settings"
-# 3. "Danger Zone" → "Change package visibility" → "Public"
+# Q: Lightsail 서버는 GitHub Actions 환경이 아닌데
+#    어떻게 GITHUB_TOKEN을 사용할 수 있나요?
 #
-# 이렇게 하면 GHCR_TOKEN 없이도 이미지 pull 가능
+# A: GITHUB_TOKEN의 값이 SSH 스크립트에 문자열로 치환되어
+#    Lightsail 서버로 전달됩니다.
+#
+#    1. GitHub Actions Runner에서 ${{ secrets.GITHUB_TOKEN }}이
+#       실제 토큰 문자열로 치환됨
+#    2. 그 문자열이 SSH 명령어와 함께 Lightsail로 전송됨
+#    3. Lightsail에서 해당 토큰으로 GHCR에 로그인
 #
 # ================================================
 # 트러블슈팅
@@ -258,10 +320,13 @@ jobs:
 #
 # Q2. "network prod-network not found" 오류
 # A2. 백엔드를 먼저 배포하세요 (네트워크 자동 생성됨)
+#     또는 수동으로 네트워크 생성:
+#     docker network create prod-network
 #
-# Q3. 이미지 풀 실패
-# A3. GHCR_TOKEN 권한 확인
-#     - read:packages 권한 필요
+# Q3. 이미지 풀 실패 (denied 오류)
+# A3. GITHUB_TOKEN이 올바르게 전달되는지 확인
+#     - 워크플로우 파일의 permissions 설정 확인
+#     - packages: write 권한 필요
 #
 # Q4. 502 Bad Gateway
 # A4. 백엔드가 실행 중인지 확인
