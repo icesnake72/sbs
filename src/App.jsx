@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import OAuthCallback from './pages/OAuthCallback'
+import Profile from './pages/Profile'
 import { AuthProvider } from './contexts/AuthProvider'
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
             <Route path='/signup' element={<Signup />}/>
             {/* 소셜 로그인(카카오) 콜백 라우트 */}
             <Route path='/oauth/callback' element={<OAuthCallback />}/>
+            {/* 프로필 수정 페이지 */}
+            <Route path='/profile' element={<Profile />}/>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

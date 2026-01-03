@@ -70,7 +70,8 @@ function GNB() {
             ) : isAuthenticated ? (
               // 로그인된 상태: 사용자 프로필 이미지, 이름, 로그아웃 버튼 표시
               <>
-                <span className="gnb-user-info">
+                {/* 사용자 정보 클릭 시 프로필 페이지로 이동 */}
+                <Link to="/profile" className="gnb-user-info">
                   {/* 사용자 프로필 이미지 (카카오 프로필 또는 기본 이미지) */}
                   <img
                     src={user?.profileImage || defaultUserImage}
@@ -78,7 +79,7 @@ function GNB() {
                     className="gnb-user-avatar"
                   />
                   {user?.name}님
-                </span>
+                </Link>
                 <button onClick={handleLogout} className="auth-link logout-button">
                   로그아웃
                 </button>

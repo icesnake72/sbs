@@ -161,6 +161,7 @@
 }
 
 /* 사용자 정보 표시 영역 (로그인 후 사용자 이름 표시) */
+/* Link 컴포넌트로 변경되어 클릭 시 프로필 페이지로 이동 */
 .gnb-user-info {
   /* flexbox로 이미지와 텍스트를 가로로 정렬 */
   display: flex;
@@ -180,6 +181,20 @@
   border-radius: 6px;
   /* 흰색에 10% 불투명도의 배경 */
   background: rgba(255, 255, 255, 0.1);
+  /* Link 컴포넌트의 기본 밑줄 제거 */
+  text-decoration: none;
+  /* 클릭 가능함을 나타내는 커서 */
+  cursor: pointer;
+  /* 전환 효과 */
+  transition: all 0.3s ease;
+}
+
+/* 사용자 정보 영역 호버 효과 */
+.gnb-user-info:hover {
+  /* 배경색 약간 밝게 */
+  background: rgba(255, 255, 255, 0.15);
+  /* 텍스트 색상 완전 불투명 */
+  color: white;
 }
 
 /* 사용자 프로필 이미지 (아바타) */
@@ -281,6 +296,14 @@
     color: rgba(26, 26, 26, 0.9);
     /* 하늘색에 15% 불투명도의 배경 */
     background: rgba(79, 195, 247, 0.15);
+  }
+
+  /* 사용자 정보 영역 호버 효과 (라이트 모드) */
+  .gnb-user-info:hover {
+    /* 배경색 약간 진하게 */
+    background: rgba(79, 195, 247, 0.25);
+    /* 텍스트 색상 완전 불투명 */
+    color: #1a1a1a;
   }
 
   /* 사용자 프로필 이미지 (라이트 모드) */

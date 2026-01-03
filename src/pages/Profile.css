@@ -1,0 +1,730 @@
+/* ==========================================
+   프로필 페이지 스타일
+   ==========================================
+   사용자 프로필 정보를 수정하는 페이지의 스타일입니다.
+   기존 Signup.css와 일관성을 유지하면서 프로필 이미지 업로드 기능을 추가했습니다.
+*/
+
+/* 프로필 페이지 메인 컨테이너 */
+.profile-container {
+  /* 최소 높이를 뷰포트 전체 높이로 설정 */
+  min-height: 100vh;
+  /* Flexbox를 사용하여 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 전체 너비 사용 */
+  width: 100%;
+  /* GNB와 Footer를 고려한 상하 패딩 */
+  padding: 120px 20px 100px;
+  /* 투명 배경 (배경은 App에서 처리) */
+  background: transparent;
+  /* 패딩이 전체 크기에 포함되도록 설정 */
+  box-sizing: border-box;
+}
+
+/* 프로필 카드 (폼을 감싸는 컨테이너) */
+.profile-card {
+  /* 반투명 어두운 배경 */
+  background: rgba(26, 26, 26, 0.8);
+  /* 뒷배경 흐림 효과 (글래스모피즘) */
+  backdrop-filter: blur(10px);
+  /* 둥근 모서리 */
+  border-radius: 16px;
+  /* 내부 여백 */
+  padding: 3rem;
+  /* 카드 너비 */
+  width: 600px;
+  max-width: 600px;
+  /* 패딩이 전체 크기에 포함되도록 설정 */
+  box-sizing: border-box;
+  /* 그림자 효과 */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* 프로필 카드 제목 */
+.profile-card h1 {
+  /* 흰색 텍스트 */
+  color: white;
+  /* 중앙 정렬 */
+  text-align: center;
+  /* 하단 여백 */
+  margin-bottom: 2rem;
+  /* 폰트 크기 */
+  font-size: 2rem;
+  /* 굵은 폰트 */
+  font-weight: bold;
+}
+
+/* 프로필 폼 */
+.profile-form {
+  /* Flexbox 레이아웃 (세로 방향) */
+  display: flex;
+  flex-direction: column;
+  /* 요소 간 간격 */
+  gap: 1.5rem;
+}
+
+/* ==========================================
+   프로필 헤더 섹션 (배경 이미지 + 프로필 이미지)
+   ==========================================
+*/
+
+/* 프로필 헤더 섹션 컨테이너 */
+.profile-header-section {
+  /* 상대 위치 (프로필 이미지를 배경 위에 겹치기 위해) */
+  position: relative;
+  /* 하단 여백 (프로필 이미지가 아래로 돌출되는 공간 확보) */
+  margin-bottom: 60px;
+}
+
+/* 배경 이미지 래퍼 */
+.profile-background-wrapper {
+  /* 너비와 높이 */
+  width: 100%;
+  height: 180px;
+  /* 둥근 모서리 */
+  border-radius: 12px;
+  /* 배경 이미지 설정 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* 기본 배경색 (이미지 없을 때) */
+  background-color: rgba(102, 126, 234, 0.2);
+  /* 클릭 커서 */
+  cursor: pointer;
+  /* 상대 위치 (오버레이용) */
+  position: relative;
+  /* 오버플로우 숨김 */
+  overflow: hidden;
+  /* 전환 효과 */
+  transition: all 0.3s ease;
+  /* 테두리 */
+  border: 2px dashed rgba(102, 126, 234, 0.4);
+}
+
+/* 배경 이미지 래퍼 호버 */
+.profile-background-wrapper:hover {
+  /* 테두리 색상 강조 */
+  border-color: rgba(102, 126, 234, 0.8);
+  /* 배경색 약간 밝게 */
+  background-color: rgba(102, 126, 234, 0.3);
+}
+
+/* 배경 이미지 래퍼 포커스 (키보드 접근성) */
+.profile-background-wrapper:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+}
+
+/* 배경 이미지 플레이스홀더 */
+.background-placeholder {
+  /* 전체 영역 */
+  width: 100%;
+  height: 100%;
+  /* Flexbox 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 배경 플레이스홀더 아이콘 */
+.background-placeholder-icon {
+  font-size: 2rem;
+}
+
+/* 배경 플레이스홀더 텍스트 */
+.background-placeholder-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+/* 배경 이미지 오버레이 (호버 시 표시) */
+.profile-background-overlay {
+  /* 절대 위치 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* 반투명 배경 */
+  background: rgba(0, 0, 0, 0.5);
+  /* 기본적으로 숨김 */
+  opacity: 0;
+  /* Flexbox 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 텍스트 스타일 */
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  /* 전환 효과 */
+  transition: opacity 0.3s ease;
+}
+
+/* 호버 시 오버레이 표시 */
+.profile-background-wrapper:hover .profile-background-overlay {
+  opacity: 1;
+}
+
+/* 프로필 이미지 컨테이너 (배경 위에 겹침) */
+.profile-image-container {
+  /* 절대 위치로 배경 하단 중앙에 배치 */
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* z-index로 배경 위에 표시 */
+  z-index: 10;
+}
+
+/* ==========================================
+   프로필 이미지 섹션 (기존 - 호환성 유지)
+   ==========================================
+*/
+
+/* 프로필 이미지 섹션 컨테이너 */
+.profile-image-section {
+  /* Flexbox로 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 하단 여백 */
+  margin-bottom: 1rem;
+}
+
+/* 프로필 이미지 래퍼 (클릭 가능한 영역) */
+.profile-image-wrapper {
+  /* 정사각형 크기 */
+  width: 150px;
+  height: 150px;
+  /* 원형으로 표시 */
+  border-radius: 50%;
+  /* 오버플로우 숨김 (원형 유지) */
+  overflow: hidden;
+  /* 포지셔닝 기준점 (오버레이용) */
+  position: relative;
+  /* 클릭 커서 */
+  cursor: pointer;
+  /* 테두리 */
+  border: 3px solid rgba(102, 126, 234, 0.5);
+  /* 전환 효과 */
+  transition: all 0.3s ease;
+}
+
+/* 프로필 이미지 래퍼 호버 효과 */
+.profile-image-wrapper:hover {
+  /* 테두리 색상 강조 */
+  border-color: rgba(102, 126, 234, 0.8);
+  /* 살짝 확대 */
+  transform: scale(1.02);
+}
+
+/* 프로필 이미지 래퍼 포커스 효과 (키보드 접근성) */
+.profile-image-wrapper:focus {
+  /* 포커스 아웃라인 제거 */
+  outline: none;
+  /* 포커스 링 표시 */
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+}
+
+/* 프로필 이미지 */
+.profile-image {
+  /* 컨테이너에 맞게 크기 조절 */
+  width: 100%;
+  height: 100%;
+  /* 비율 유지하며 채우기 */
+  object-fit: cover;
+}
+
+/* 프로필 이미지 플레이스홀더 (이미지 없을 때) */
+.profile-image-placeholder {
+  /* 전체 크기 */
+  width: 100%;
+  height: 100%;
+  /* 배경색 */
+  background: rgba(255, 255, 255, 0.1);
+  /* Flexbox로 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* 간격 */
+  gap: 0.5rem;
+}
+
+/* 플레이스홀더 아이콘 */
+.placeholder-icon {
+  /* 아이콘 크기 */
+  font-size: 2.5rem;
+}
+
+/* 플레이스홀더 텍스트 */
+.placeholder-text {
+  /* 텍스트 색상 */
+  color: rgba(255, 255, 255, 0.6);
+  /* 폰트 크기 */
+  font-size: 0.85rem;
+}
+
+/* 프로필 이미지 오버레이 (호버 시 표시) */
+.profile-image-overlay {
+  /* 절대 위치 (부모 기준) */
+  position: absolute;
+  /* 전체 영역 덮기 */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* 반투명 배경 */
+  background: rgba(0, 0, 0, 0.5);
+  /* 기본적으로 숨김 */
+  opacity: 0;
+  /* Flexbox로 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 텍스트 색상 */
+  color: white;
+  /* 폰트 크기 */
+  font-size: 1rem;
+  /* 전환 효과 */
+  transition: opacity 0.3s ease;
+}
+
+/* 호버 시 오버레이 표시 */
+.profile-image-wrapper:hover .profile-image-overlay {
+  opacity: 1;
+}
+
+/* 이미지 힌트 텍스트 */
+.image-hint {
+  /* 텍스트 색상 */
+  color: rgba(255, 255, 255, 0.5);
+  /* 폰트 크기 */
+  font-size: 0.85rem;
+  /* 상단 여백 */
+  margin-top: 0.75rem;
+  /* 하단 여백 제거 */
+  margin-bottom: 0;
+}
+
+/* ==========================================
+   폼 요소 스타일
+   ==========================================
+*/
+
+/* 폼 그룹 (레이블 + 입력 필드) */
+.form-group {
+  /* Flexbox 레이아웃 (세로 방향) */
+  display: flex;
+  flex-direction: column;
+  /* 간격 */
+  gap: 0.5rem;
+}
+
+/* 폼 그룹 레이블 */
+.form-group label {
+  /* 텍스트 색상 */
+  color: rgba(255, 255, 255, 0.9);
+  /* 폰트 크기 */
+  font-size: 0.9rem;
+  /* 폰트 굵기 */
+  font-weight: 500;
+}
+
+/* 폼 행 (가로로 배치되는 입력 필드들) */
+.form-row {
+  /* Flexbox 레이아웃 (가로 방향) */
+  display: flex;
+  /* 간격 */
+  gap: 1rem;
+}
+
+/* 반너비 폼 그룹 (form-row 내에서 사용) */
+.form-group.half {
+  /* 동일한 너비로 분배 */
+  flex: 1;
+}
+
+/* 입력 필드 공통 스타일 */
+.form-group input,
+.form-group select {
+  /* 내부 여백 */
+  padding: 0.75rem 1rem;
+  /* 테두리 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* 둥근 모서리 */
+  border-radius: 8px;
+  /* 배경색 */
+  background: rgba(255, 255, 255, 0.05);
+  /* 텍스트 색상 */
+  color: white;
+  /* 폰트 크기 */
+  font-size: 1rem;
+  /* 전환 효과 */
+  transition: all 0.3s ease;
+}
+
+/* 입력 필드 플레이스홀더 */
+.form-group input::placeholder {
+  /* 플레이스홀더 색상 */
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 입력 필드 포커스 상태 */
+.form-group input:focus,
+.form-group select:focus {
+  /* 포커스 아웃라인 제거 */
+  outline: none;
+  /* 테두리 색상 변경 */
+  border-color: rgba(102, 126, 234, 0.8);
+  /* 배경색 약간 밝게 */
+  background: rgba(255, 255, 255, 0.08);
+  /* 포커스 링 */
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* 입력 필드 에러 상태 */
+.form-group input.error,
+.form-group select.error {
+  /* 에러 테두리 색상 */
+  border-color: rgba(255, 82, 82, 0.8);
+  /* 에러 배경색 */
+  background: rgba(255, 82, 82, 0.05);
+}
+
+/* select 요소 추가 스타일 */
+.form-group select {
+  /* 커서 변경 */
+  cursor: pointer;
+  /* 기본 화살표 대체 */
+  appearance: none;
+  /* 배경 이미지로 화살표 추가 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  /* 오른쪽에 화살표 공간 확보 */
+  padding-right: 2.5rem;
+}
+
+/* select option 스타일 */
+.form-group select option {
+  /* 배경색 */
+  background: #2a2a2a;
+  /* 텍스트 색상 */
+  color: white;
+}
+
+/* date 입력 필드 색상 스킴 */
+.form-group input[type="date"] {
+  /* 다크 모드 색상 스킴 적용 */
+  color-scheme: dark;
+}
+
+/* 에러 메시지 */
+.error-message {
+  /* 에러 색상 */
+  color: #ff5252;
+  /* 폰트 크기 */
+  font-size: 0.85rem;
+  /* 상단 여백 */
+  margin-top: 0.25rem;
+}
+
+/* ==========================================
+   버튼 스타일
+   ==========================================
+*/
+
+/* 버튼 그룹 */
+.button-group {
+  /* Flexbox 레이아웃 */
+  display: flex;
+  /* 버튼 간 간격 */
+  gap: 1rem;
+  /* 상단 여백 */
+  margin-top: 1rem;
+}
+
+/* 공통 버튼 스타일 */
+.submit-button,
+.cancel-button {
+  /* 동일한 너비로 분배 */
+  flex: 1;
+  /* 내부 여백 */
+  padding: 0.875rem 1.5rem;
+  /* 테두리 제거 */
+  border: none;
+  /* 둥근 모서리 */
+  border-radius: 8px;
+  /* 폰트 크기 */
+  font-size: 1rem;
+  /* 폰트 굵기 */
+  font-weight: 600;
+  /* 클릭 커서 */
+  cursor: pointer;
+  /* 전환 효과 */
+  transition: all 0.3s ease;
+}
+
+/* 저장 버튼 (Primary) */
+.submit-button {
+  /* 그라데이션 배경 */
+  background: linear-gradient(145deg, #667eea, #764ba2);
+  /* 텍스트 색상 */
+  color: white;
+  /* 그림자 */
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* 저장 버튼 호버 */
+.submit-button:hover {
+  /* 살짝 위로 이동 */
+  transform: translateY(-2px);
+  /* 그림자 강조 */
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+/* 저장 버튼 클릭 */
+.submit-button:active {
+  /* 원래 위치로 */
+  transform: translateY(0);
+}
+
+/* 저장 버튼 비활성화 */
+.submit-button:disabled {
+  /* 투명도 낮춤 */
+  opacity: 0.6;
+  /* 클릭 불가 커서 */
+  cursor: not-allowed;
+  /* 변환 제거 */
+  transform: none;
+}
+
+/* 저장 버튼 비활성화 호버 */
+.submit-button:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* 취소 버튼 (Secondary) */
+.cancel-button {
+  /* 반투명 배경 */
+  background: rgba(255, 255, 255, 0.1);
+  /* 텍스트 색상 */
+  color: white;
+  /* 테두리 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 취소 버튼 호버 */
+.cancel-button:hover {
+  /* 배경 약간 밝게 */
+  background: rgba(255, 255, 255, 0.15);
+  /* 테두리 색상 변경 */
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 취소 버튼 비활성화 */
+.cancel-button:disabled {
+  /* 투명도 낮춤 */
+  opacity: 0.6;
+  /* 클릭 불가 커서 */
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   라이트 모드 스타일
+   ==========================================
+*/
+@media (prefers-color-scheme: light) {
+  /* 프로필 카드 */
+  .profile-card {
+    /* 밝은 배경 */
+    background: rgba(255, 255, 255, 0.9);
+    /* 그림자 조정 */
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 제목 */
+  .profile-card h1 {
+    /* 어두운 텍스트 */
+    color: #1a1a1a;
+  }
+
+  /* 레이블 */
+  .form-group label {
+    /* 어두운 텍스트 */
+    color: rgba(26, 26, 26, 0.9);
+  }
+
+  /* 입력 필드 */
+  .form-group input,
+  .form-group select {
+    /* 테두리 색상 */
+    border-color: rgba(0, 0, 0, 0.2);
+    /* 배경색 */
+    background: rgba(255, 255, 255, 0.8);
+    /* 텍스트 색상 */
+    color: #1a1a1a;
+  }
+
+  /* 입력 필드 플레이스홀더 */
+  .form-group input::placeholder {
+    color: rgba(26, 26, 26, 0.4);
+  }
+
+  /* 입력 필드 포커스 */
+  .form-group input:focus,
+  .form-group select:focus {
+    /* 포커스 테두리 색상 */
+    border-color: rgba(79, 195, 247, 0.8);
+    /* 배경색 */
+    background: rgba(255, 255, 255, 0.95);
+    /* 포커스 링 */
+    box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
+  }
+
+  /* select 요소 화살표 */
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%231a1a1a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  }
+
+  /* select option */
+  .form-group select option {
+    background: white;
+    color: #1a1a1a;
+  }
+
+  /* date 입력 필드 색상 스킴 */
+  .form-group input[type="date"] {
+    color-scheme: light;
+  }
+
+  /* 저장 버튼 */
+  .submit-button {
+    /* 라이트 모드 그라데이션 */
+    background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+    /* 그림자 */
+    box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+  }
+
+  /* 취소 버튼 */
+  .cancel-button {
+    /* 배경색 */
+    background: rgba(0, 0, 0, 0.05);
+    /* 텍스트 색상 */
+    color: #1a1a1a;
+    /* 테두리 */
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  /* 취소 버튼 호버 */
+  .cancel-button:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  /* 프로필 이미지 래퍼 */
+  .profile-image-wrapper {
+    border-color: rgba(79, 195, 247, 0.5);
+  }
+
+  .profile-image-wrapper:hover {
+    border-color: rgba(79, 195, 247, 0.8);
+  }
+
+  .profile-image-wrapper:focus {
+    box-shadow: 0 0 0 4px rgba(79, 195, 247, 0.3);
+  }
+
+  /* 배경 이미지 래퍼 (라이트 모드) */
+  .profile-background-wrapper {
+    /* 기본 배경색 */
+    background-color: rgba(79, 195, 247, 0.15);
+    /* 테두리 색상 */
+    border-color: rgba(79, 195, 247, 0.3);
+  }
+
+  .profile-background-wrapper:hover {
+    border-color: rgba(79, 195, 247, 0.6);
+    background-color: rgba(79, 195, 247, 0.25);
+  }
+
+  .profile-background-wrapper:focus {
+    box-shadow: 0 0 0 4px rgba(79, 195, 247, 0.2);
+  }
+
+  /* 배경 플레이스홀더 텍스트 (라이트 모드) */
+  .background-placeholder-text {
+    color: rgba(26, 26, 26, 0.5);
+  }
+
+  /* 플레이스홀더 텍스트 */
+  .placeholder-text {
+    color: rgba(26, 26, 26, 0.6);
+  }
+
+  /* 이미지 힌트 */
+  .image-hint {
+    color: rgba(26, 26, 26, 0.5);
+  }
+}
+
+/* ==========================================
+   다크 모드 스타일 (명시적)
+   ==========================================
+*/
+@media (prefers-color-scheme: dark) {
+  /* 기본 스타일이 다크 모드이므로 추가 스타일 없음 */
+}
+
+/* ==========================================
+   반응형 스타일
+   ==========================================
+*/
+@media (max-width: 640px) {
+  /* 모바일에서 카드 너비 조정 */
+  .profile-card {
+    width: 100%;
+    padding: 2rem;
+  }
+
+  /* 배경 이미지 높이 조정 */
+  .profile-background-wrapper {
+    height: 140px;
+  }
+
+  /* 프로필 이미지 크기 조정 */
+  .profile-image-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  /* 프로필 이미지 위치 조정 */
+  .profile-image-container {
+    bottom: -40px;
+  }
+
+  /* 헤더 섹션 하단 여백 조정 */
+  .profile-header-section {
+    margin-bottom: 50px;
+  }
+
+  /* 폼 행 세로로 변경 */
+  .form-row {
+    flex-direction: column;
+  }
+
+  /* 버튼 그룹 세로로 변경 */
+  .button-group {
+    flex-direction: column-reverse;
+  }
+}
