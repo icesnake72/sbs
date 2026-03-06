@@ -6,6 +6,7 @@ import GNB from '../components/Gnb';
 import Footer from '../components/Footer';
 import { useAuth } from '../hooks/useAuth';
 import { API_CONFIG } from '../config';
+import { normalizeImageUrl } from '../utils/imageUrl';
 import './PostDetail.css';
 
 /**
@@ -113,7 +114,8 @@ function PostDetail() {
 
   // 작성자 정보 추출 (author 객체 또는 직접 필드)
   const authorName = post?.author?.name || post?.userName || '알 수 없음';
-  const authorImage = post?.author?.profileImage || post?.userProfileImage || null;
+  // normalizeImageUrl: 백엔드의 :8080 포트 URL을 /uploads/... 상대경로로 변환
+  const authorImage = normalizeImageUrl(post?.author?.profileImage || post?.userProfileImage || null);
 
   // 현재 사용자가 게시글 작성자인지 확인
   const isOwner = user && post && (
@@ -180,7 +182,7 @@ function PostDetail() {
                 {post.images.map((image, index) => (
                   <div key={image.id || index} className="post-detail-image-item">
                     <img
-                      src={image.imageUrl || image.url}
+                      src={normalizeImageUrl(image.imageUrl || image.url)}
                       alt={`게시글 이미지 ${index + 1}`}
                     />
                   </div>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { normalizeImageUrl } from '../utils/imageUrl';
 
 /**
  * PostCard 컴포넌트
@@ -33,7 +34,8 @@ function PostCard({ post }) {
 
   // 작성자 정보 (author 객체 또는 직접 필드)
   const authorName = post.author?.name || post.userName || '알 수 없음';
-  const authorImage = post.author?.profileImage || post.userProfileImage || null;
+  // normalizeImageUrl: 백엔드가 반환하는 :8080 포트 URL을 /uploads/... 상대경로로 변환
+  const authorImage = normalizeImageUrl(post.author?.profileImage || post.userProfileImage || null);
 
   return (
     <Link to={`/posts/${post.id}`} className="post-card">
@@ -61,7 +63,7 @@ function PostCard({ post }) {
       {(post.thumbnailUrl || (post.images && post.images.length > 0)) && (
         <div className="post-card-thumbnail">
           <img
-            src={post.thumbnailUrl || post.images[0]?.imageUrl || post.images[0]?.thumbnailUrl}
+            src={normalizeImageUrl(post.thumbnailUrl || post.images[0]?.imageUrl || post.images[0]?.thumbnailUrl)}
             alt="게시글 이미지"
           />
           {/* 이미지 개수 표시 (2개 이상인 경우) */}
