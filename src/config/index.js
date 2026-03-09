@@ -38,6 +38,18 @@ export const API_CONFIG = {
     postsWithImages: '/posts/with-images',
     myPosts: '/posts/me',
 
+    // 댓글 - /api/posts/{postId}/comments
+    postComments: '/posts',      // + /{postId}/comments
+    // 댓글 수정/삭제 - /api/comments/{id}
+    comments: '/comments',       // + /{id}
+    // 댓글 대댓글 - /api/comments/{commentId}/replies
+    commentReplies: '/comments', // + /{commentId}/replies
+
+    // 좋아요 - /api/posts/{postId}/like
+    postLike: '/posts',          // + /{postId}/like
+    // 댓글 좋아요 - /api/comments/{commentId}/like
+    commentLike: '/comments',    // + /{commentId}/like
+
     // OAuth (카카오) - /api/auth 경로를 통해 백엔드로 프록시
     kakaoLogin: '/auth/kakao/login',
     kakaoCallback: '/auth/kakao/callback',
