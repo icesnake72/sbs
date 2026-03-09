@@ -362,12 +362,12 @@
 }
 
 /* =============================================
-   모바일 반응형 (480px 이하) — 아이콘만 표시
+   모바일 반응형 (768px 이하) — 아이콘만 표시
    ============================================= */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* 컨테이너 좌우 패딩 축소 */
   .gnb-container {
-    padding: 0.75rem 0.75rem;
+    padding: 0.75rem 1rem;
   }
 
   /* 왼쪽 영역 간격 축소 */
@@ -387,14 +387,14 @@
 
   /* 네비게이션 링크: 아이콘 크기에 맞춰 패딩 축소 */
   .gnb-link {
-    padding: 0.5rem 0.6rem;
+    padding: 0.5rem 0.65rem;
     font-size: 1.25rem;
   }
 
   /* 로그인/회원가입/로그아웃 버튼 패딩 축소 */
   .auth-link,
   .logout-button {
-    padding: 0.5rem 0.6rem;
+    padding: 0.5rem 0.65rem;
     font-size: 1.1rem;
   }
 
