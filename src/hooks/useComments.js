@@ -138,6 +138,75 @@ function useComments(postId, accessToken) {
     }
   }, [accessToken]);
 
+  /**
+   * 댓글 좋아요를 토글합니다.
+   * - 좋아요 추가: POST /api/comments/{commentId}/like
+   * - 좋아요 취소: DELETE /api/comments/{commentId}/like
+   *
+   * Optimistic update: UI를 먼저 변경하고 API 실패 시 롤백합니다.
+   *
+   * @param {string|number} commentId - 대상 댓글 ID
+   * @param {boolean} currentLiked - 현재 좋아요 여부 (호출 시점의 상태를 직접 전달)
+   * @returns {boolean} 성공 여부
+   */
+  const toggleCommentLike = useCallback(async (commentId, currentLiked) => {
+    if (!accessToken) {
+      alert('로그인이 필요합니다.');
+      return false;
+    }
+
+    const newLiked = !currentLiked;
+
+    // Optimistic update: UI 즉시 반영
+    setComments((prev) =>
+      prev.map((c) =>
+        c.id !== commentId
+          ? c
+          : {
+              ...c,
+              liked: newLiked,
+              likeCount: newLiked
+                ? (c.likeCount || 0) + 1
+                : Math.max((c.likeCount || 0) - 1, 0),
+            }
+      )
+    );
+
+    try {
+      const url = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.commentLike}/${commentId}/like`;
+      const config = {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+        withCredentials: true,
+      };
+
+      if (currentLiked) {
+        // 좋아요 취소
+        await axios.delete(url, config);
+      } else {
+        // 좋아요 추가
+        await axios.post(url, {}, config);
+      }
+      return true;
+    } catch (err) {
+      console.error('댓글 좋아요 처리 실패:', err);
+      // API 실패 시 Optimistic update 롤백
+      setComments((prev) =>
+        prev.map((c) =>
+          c.id !== commentId
+            ? c
+            : {
+                ...c,
+                liked: currentLiked,
+                likeCount: currentLiked
+                  ? (c.likeCount || 0) + 1
+                  : Math.max((c.likeCount || 0) - 1, 0),
+              }
+        )
+      );
+      return false;
+    }
+  }, [accessToken]);
+
   return {
     comments,
     isLoading,
@@ -146,6 +215,7 @@ function useComments(postId, accessToken) {
     fetchComments,
     addComment,
     deleteComment,
+    toggleCommentLike,
   };
 }
 

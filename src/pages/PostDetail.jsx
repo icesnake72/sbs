@@ -38,7 +38,7 @@ function PostDetail() {
   const [isLiking, setIsLiking] = useState(false);
 
   // ── 댓글 상태 ──
-  const { comments, isLoading: isCommentsLoading, isSubmitting, fetchComments, addComment, deleteComment } = useComments(id, accessToken);
+  const { comments, isLoading: isCommentsLoading, isSubmitting, fetchComments, addComment, deleteComment, toggleCommentLike } = useComments(id, accessToken);
   // 새 댓글 입력창 내용
   const [commentInput, setCommentInput] = useState('');
   // 댓글 입력창 ref (작성 후 포커스 유지)
@@ -385,6 +385,18 @@ function PostDetail() {
                             <span className="comment-time">{formatRelativeTime(comment.createdAt)}</span>
                           </div>
                           <p className="comment-content">{comment.content}</p>
+
+                          {/* 댓글 좋아요 버튼 */}
+                          <button
+                            className={`comment-like-btn ${comment.liked ? 'liked' : ''}`}
+                            onClick={() => toggleCommentLike(comment.id, comment.liked ?? false)}
+                            title={comment.liked ? '좋아요 취소' : '좋아요'}
+                          >
+                            {comment.liked ? '♥' : '♡'}
+                            {comment.likeCount > 0 && (
+                              <span className="comment-like-count">{comment.likeCount}</span>
+                            )}
+                          </button>
                         </div>
 
                         {/* 본인 댓글: 삭제 버튼 */}

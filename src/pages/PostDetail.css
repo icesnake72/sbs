@@ -385,6 +385,36 @@
   white-space: pre-wrap;
 }
 
+/* ── 댓글 좋아요 버튼 ── */
+.comment-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0.15rem 0.4rem 0.15rem 0;
+  margin-top: 0.4rem;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+.comment-like-btn:hover {
+  color: #f87171;
+}
+
+/* 좋아요 활성 상태 */
+.comment-like-btn.liked {
+  color: #f87171;
+  font-weight: 600;
+}
+
+.comment-like-count {
+  font-size: 0.72rem;
+}
+
 /* 댓글 삭제 버튼 */
 .comment-delete-btn {
   flex-shrink: 0;
