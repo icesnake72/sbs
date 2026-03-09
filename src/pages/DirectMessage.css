@@ -1,7 +1,8 @@
 .dm-page {
+  --dm-footer-clearance: 104px;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 96px 20px 80px;
+  padding: 96px 20px calc(80px + var(--dm-footer-clearance));
   min-height: 100vh;
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -229,13 +230,18 @@
 
 @media (max-width: 900px) {
   .dm-page {
+    --dm-footer-clearance: 156px;
     grid-template-columns: 1fr;
-    padding: 84px 12px 64px;
+    padding: 84px 12px calc(64px + var(--dm-footer-clearance) + env(safe-area-inset-bottom));
   }
 
   .dm-room-panel,
   .dm-chat-panel {
     min-height: auto;
+  }
+
+  .dm-chat-panel {
+    margin-bottom: 8px;
   }
 
   .dm-message-item {
