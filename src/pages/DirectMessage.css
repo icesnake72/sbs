@@ -1,5 +1,5 @@
 .dm-page {
-  --dm-footer-clearance: 104px;
+  --dm-footer-clearance: 24px;
   max-width: 1080px;
   margin: 0 auto;
   padding: 96px 20px calc(80px + var(--dm-footer-clearance));
@@ -230,7 +230,6 @@
 
 @media (max-width: 900px) {
   .dm-page {
-    --dm-footer-clearance: 156px;
     grid-template-columns: 1fr;
     padding: 84px 12px calc(64px + var(--dm-footer-clearance) + env(safe-area-inset-bottom));
   }

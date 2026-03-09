@@ -53,6 +53,7 @@ function DirectMessage() {
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [messageInput, setMessageInput] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [footerClearance, setFooterClearance] = useState(24);
 
   const chatEndRef = useRef(null);
   const lastMessageIdRef = useRef(0);
@@ -221,6 +222,30 @@ function DirectMessage() {
     }
   }, [messages, scrollToBottom]);
 
+  useEffect(() => {
+    const footerElement = document.querySelector('.footer');
+    if (!footerElement) return undefined;
+
+    const updateFooterClearance = () => {
+      const footerHeight = footerElement.getBoundingClientRect().height || 0;
+      setFooterClearance(Math.ceil(footerHeight) + 12);
+    };
+
+    updateFooterClearance();
+    window.addEventListener('resize', updateFooterClearance);
+
+    let observer;
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(updateFooterClearance);
+      observer.observe(footerElement);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateFooterClearance);
+      if (observer) observer.disconnect();
+    };
+  }, []);
+
   const handleSelectRoom = (roomId) => {
     setSelectedRoomId(roomId);
     navigate(`/dm?roomId=${roomId}`, { replace: true });
@@ -273,7 +298,10 @@ function DirectMessage() {
   return (
     <>
       <GNB />
-      <div className="dm-page">
+      <div
+        className="dm-page"
+        style={{ '--dm-footer-clearance': `${footerClearance}px` }}
+      >
         <section className="dm-room-panel">
           <h1 className="dm-title">Direct Message</h1>
 
