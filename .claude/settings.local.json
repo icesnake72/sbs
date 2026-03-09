@@ -6,7 +6,9 @@
       "Bash(docker compose up:*)",
       "Bash(docker network inspect:*)",
       "Bash(docker network connect:*)",
-      "Bash(docker ps:*)"
+      "Bash(docker ps:*)",
+      "Bash(gh run list --limit 3)",
+      "Bash(gh run watch 22864327870)"
     ]
   }
 }

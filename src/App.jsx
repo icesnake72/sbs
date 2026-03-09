@@ -9,6 +9,7 @@ import PostList from './pages/PostList'
 import PostCreate from './pages/PostCreate'
 import PostDetail from './pages/PostDetail'
 import About from './pages/About'
+import DirectMessage from './pages/DirectMessage'
 import { AuthProvider } from './contexts/AuthProvider'
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
             <Route path='/posts/:id' element={<PostDetail />}/>
             {/* 프로젝트 소개 페이지 */}
             <Route path='/about' element={<About />}/>
+            {/* 다이렉트 메시지 페이지 */}
+            <Route path='/dm' element={<DirectMessage />}/>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

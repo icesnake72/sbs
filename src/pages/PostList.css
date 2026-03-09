@@ -97,7 +97,6 @@
   backdrop-filter: blur(10px);
   border-radius: 12px;
   padding: 1.2rem;
-  text-decoration: none;
   color: white;
   display: block;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -108,6 +107,12 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   border-color: rgba(102, 126, 234, 0.3);
+}
+
+.post-card-main-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 /* 카드 헤더: 작성자 정보 + 시간 */

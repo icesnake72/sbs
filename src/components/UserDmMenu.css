@@ -1,0 +1,48 @@
+.user-dm-menu {
+  position: relative;
+}
+
+.user-dm-avatar-trigger {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-dm-avatar-trigger.disabled {
+  cursor: default;
+}
+
+.user-dm-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  min-width: 148px;
+  background: rgba(26, 26, 26, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+  padding: 0.35rem;
+}
+
+.user-dm-item {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+}
+
+.user-dm-item:hover {
+  background: rgba(102, 126, 234, 0.28);
+  color: white;
+}
+

@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import useComments from '../hooks/useComments';
 import { API_CONFIG } from '../config';
 import { normalizeImageUrl } from '../utils/imageUrl';
+import UserDmMenu from '../components/UserDmMenu';
 import './PostDetail.css';
 
 /**
@@ -207,6 +208,7 @@ function PostDetail() {
 
   // 작성자 정보 추출
   const authorName = post?.author?.name || post?.userName || '알 수 없음';
+  const authorId = post?.author?.id || post?.userId || null;
   const authorImage = normalizeImageUrl(post?.author?.profileImage || post?.userProfileImage || null);
 
   // 현재 사용자가 게시글 작성자인지 확인
@@ -233,11 +235,13 @@ function PostDetail() {
             {/* ── 작성자 정보 헤더 ── */}
             <div className="post-detail-header">
               <div className="post-detail-author">
-                {authorImage ? (
-                  <img src={authorImage} alt={authorName} className="post-detail-avatar" />
-                ) : (
-                  <div className="post-detail-avatar-placeholder">{authorName.charAt(0)}</div>
-                )}
+                <UserDmMenu
+                  targetUserId={authorId}
+                  targetUserName={authorName}
+                  imageUrl={authorImage}
+                  avatarClassName="post-detail-avatar"
+                  placeholderClassName="post-detail-avatar-placeholder"
+                />
                 <div className="post-detail-author-info">
                   <span className="post-detail-author-name">{authorName}</span>
                   <span className="post-detail-date">{formatDate(post.createdAt)}</span>
@@ -357,6 +361,7 @@ function PostDetail() {
                   {comments.map((comment) => {
                     // 댓글 작성자 정보
                     const cAuthorName = comment.author?.name || comment.userName || '알 수 없음';
+                    const cAuthorId = comment.author?.id || comment.userId || null;
                     const cAuthorImage = normalizeImageUrl(comment.author?.profileImage || comment.userProfileImage || null);
                     // 현재 사용자가 댓글 작성자인지 확인
                     const isCommentOwner = user && (
@@ -369,13 +374,13 @@ function PostDetail() {
                       <li key={comment.id} className="comment-item">
                         {/* 댓글 작성자 아바타 */}
                         <div className="comment-avatar-wrap">
-                          {cAuthorImage ? (
-                            <img src={cAuthorImage} alt={cAuthorName} className="comment-avatar" />
-                          ) : (
-                            <div className="comment-avatar-placeholder">
-                              {cAuthorName.charAt(0)}
-                            </div>
-                          )}
+                          <UserDmMenu
+                            targetUserId={cAuthorId}
+                            targetUserName={cAuthorName}
+                            imageUrl={cAuthorImage}
+                            avatarClassName="comment-avatar"
+                            placeholderClassName="comment-avatar-placeholder"
+                          />
                         </div>
 
                         {/* 댓글 본문 */}

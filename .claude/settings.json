@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add src/pages/About.jsx src/pages/About.css)",
+      "Bash(git push origin main)"
+    ]
+  }
+}

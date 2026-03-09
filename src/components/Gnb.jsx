@@ -69,6 +69,12 @@ function GNB() {
               <span className="gnb-icon">📄</span>
               <span className="gnb-text">소개</span>
             </Link>
+            {isAuthenticated && (
+              <Link to="/dm" className={`gnb-link ${location.pathname.startsWith('/dm') ? 'active' : ''}`}>
+                <span className="gnb-icon">💬</span>
+                <span className="gnb-text">DM</span>
+              </Link>
+            )}
           </div>
 
           {/* 오른쪽 영역: 로그인 상태에 따라 다른 UI 표시 */}

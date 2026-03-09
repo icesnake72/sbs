@@ -1,0 +1,244 @@
+.dm-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 96px 20px 80px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.dm-room-panel,
+.dm-chat-panel {
+  background: rgba(26, 26, 26, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+}
+
+.dm-room-panel {
+  padding: 1rem;
+  min-height: 640px;
+}
+
+.dm-title {
+  margin: 0 0 0.9rem;
+  color: white;
+  font-size: 1.15rem;
+}
+
+.dm-room-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dm-room-item {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dm-room-item.active {
+  border-color: rgba(102, 126, 234, 0.6);
+  background: rgba(102, 126, 234, 0.16);
+}
+
+.dm-room-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.dm-room-avatar.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-weight: 700;
+}
+
+.dm-room-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.dm-room-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dm-room-preview {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-unread-badge {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #ff4d67;
+  color: white;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+.dm-chat-panel {
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dm-chat-header {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dm-chat-user {
+  color: white;
+}
+
+.dm-leave-btn {
+  border: 1px solid rgba(255, 90, 90, 0.35);
+  background: rgba(255, 90, 90, 0.1);
+  color: #ff9fa9;
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+
+.dm-message-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dm-message-item {
+  max-width: 72%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+}
+
+.dm-message-item.mine {
+  align-self: flex-end;
+  background: rgba(102, 126, 234, 0.24);
+  border: 1px solid rgba(102, 126, 234, 0.5);
+}
+
+.dm-message-item.other {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.dm-message-content {
+  margin: 0;
+  color: white;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.dm-message-time {
+  margin-top: 0.3rem;
+  display: block;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+}
+
+.dm-message-form {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.8rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+}
+
+.dm-message-input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  padding: 0.65rem 0.8rem;
+  resize: none;
+  font-family: inherit;
+}
+
+.dm-message-input:focus {
+  outline: none;
+  border-color: rgba(102, 126, 234, 0.7);
+}
+
+.dm-send-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0 1.1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dm-send-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.dm-empty-text,
+.dm-empty-state {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dm-empty-state {
+  margin: auto;
+}
+
+@media (max-width: 900px) {
+  .dm-page {
+    grid-template-columns: 1fr;
+    padding: 84px 12px 64px;
+  }
+
+  .dm-room-panel,
+  .dm-chat-panel {
+    min-height: auto;
+  }
+
+  .dm-message-item {
+    max-width: 85%;
+  }
+}
+
