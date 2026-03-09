@@ -8,6 +8,7 @@ import Profile from './pages/Profile'
 import PostList from './pages/PostList'
 import PostCreate from './pages/PostCreate'
 import PostDetail from './pages/PostDetail'
+import About from './pages/About'
 import { AuthProvider } from './contexts/AuthProvider'
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
             <Route path='/posts' element={<PostList />}/>
             <Route path='/posts/create' element={<PostCreate />}/>
             <Route path='/posts/:id' element={<PostDetail />}/>
+            {/* 프로젝트 소개 페이지 */}
+            <Route path='/about' element={<About />}/>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

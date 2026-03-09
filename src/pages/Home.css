@@ -1,0 +1,83 @@
+/* Home 페이지 스타일 */
+
+.home-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 120px 20px 80px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.home-title {
+  color: white;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.home-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  margin: 0 0 2rem;
+}
+
+.home-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-link {
+  padding: 0.65rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.home-link:hover {
+  transform: translateY(-2px);
+}
+
+.home-link--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.3);
+}
+
+.home-link--primary:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.home-link--secondary {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.home-link--secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 90px 16px 60px;
+  }
+
+  .home-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-link {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+}

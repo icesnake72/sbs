@@ -1,0 +1,483 @@
+/* ==========================================
+   About (프로젝트 소개) 페이지 스타일
+   ==========================================
+   프로젝트의 다크 테마 + 글래스모피즘 스타일을 따릅니다.
+*/
+
+/* ── 메인 컨테이너 ── */
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 100px 20px 80px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ── 히어로 헤더 ── */
+.about-hero {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-hero-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.about-hero-desc {
+  margin: 0.3rem 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+}
+
+/* 메타 칩 */
+.about-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.about-chip {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── 섹션 공통 ── */
+.about-section {
+  background: rgba(26, 26, 26, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.about-section-title {
+  margin: 0 0 0.3rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: white;
+}
+
+.about-section-sub {
+  margin: 0 0 1.2rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.85rem;
+}
+
+/* ── 기술 스택 그리드 ── */
+.about-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.about-stack-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+  transition: border-color 0.2s;
+}
+
+.about-stack-card:hover {
+  border-color: rgba(102, 126, 234, 0.4);
+}
+
+.about-stack-card-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.about-stack-card-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  word-break: break-all;
+}
+
+/* ── 인증 흐름 ── */
+.about-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 1rem;
+}
+
+.about-flow-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.about-flow-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.about-flow-text {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+}
+
+.about-flow-arrow {
+  color: rgba(102, 126, 234, 0.7);
+  font-size: 1rem;
+  padding: 0 4px;
+}
+
+/* 상태 배지 모음 */
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+/* ── 상태 배지 ── */
+.about-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid;
+}
+
+.about-badge--ok {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.4);
+  background: rgba(74, 222, 128, 0.08);
+}
+
+.about-badge--warn {
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.about-badge--err {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.4);
+  background: rgba(248, 113, 113, 0.08);
+}
+
+/* ── 코드 블록 ── */
+.about-code {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #d0e4ff;
+  overflow-x: auto;
+  white-space: pre;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  margin: 0;
+}
+
+/* ── API 탭 ── */
+.about-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.about-tab {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+
+.about-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.about-tab--active {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+  color: white;
+  border-color: rgba(102, 126, 234, 0.5);
+  font-weight: 600;
+}
+
+/* ── 엔드포인트 테이블 ── */
+.about-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.about-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+  font-size: 0.85rem;
+}
+
+.about-table th {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.about-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  vertical-align: middle;
+}
+
+.about-table tr:last-child td {
+  border-bottom: none;
+}
+
+.about-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 경로 텍스트 */
+.about-table-path {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8rem;
+  color: #a5f3fc;
+}
+
+.about-table-desc {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* HTTP 메서드 배지 */
+.about-method {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: white;
+  font-family: monospace;
+}
+
+.about-method--get    { background: #0f766e; }
+.about-method--post   { background: #2563eb; }
+.about-method--put    { background: #b45309; }
+.about-method--delete { background: #b91c1c; }
+
+/* 인증 필요 여부 배지 */
+.about-auth-badge {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.about-auth-badge--required {
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.about-auth-badge--none {
+  color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.12);
+  background: transparent;
+}
+
+/* ── 환경/배포 체크리스트 ── */
+.about-check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about-check-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.about-check-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.about-check-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: white;
+}
+
+.about-check-value {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+/* ── 코드 샘플 카드 ── */
+.about-sample {
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.about-sample:last-child {
+  margin-bottom: 0;
+}
+
+.about-sample-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.6rem;
+}
+
+/* ── 하단 링크 ── */
+.about-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.about-back-link {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.about-back-link:hover {
+  color: white;
+}
+
+.about-posts-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.about-posts-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+}
+
+/* ==========================================
+   반응형 대응
+   ========================================== */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 80px 14px 60px;
+  }
+
+  .about-hero {
+    padding: 1.4rem;
+  }
+
+  /* 스택 카드: 모바일에서 2열 */
+  .about-stack-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* 인증 흐름: 모바일에서 세로 스택 */
+  .about-flow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .about-flow-arrow {
+    transform: rotate(90deg);
+    padding: 0 0 0 28px;
+  }
+
+  .about-flow-text {
+    white-space: normal;
+  }
+
+  /* 섹션 패딩 줄이기 */
+  .about-section {
+    padding: 1.2rem;
+  }
+
+  .about-footer-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .about-posts-link {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* 스택 카드: 초소형에서 1열 */
+  .about-stack-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-stack-card-value {
+    font-size: 0.8rem;
+  }
+
+  .about-tabs {
+    gap: 4px;
+  }
+
+  .about-tab {
+    padding: 5px 10px;
+    font-size: 0.78rem;
+  }
+}
