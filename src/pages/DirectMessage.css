@@ -144,20 +144,21 @@
 
 .dm-message-item {
   max-width: 72%;
-  padding: 0.65rem 0.75rem;
-  border-radius: 10px;
+  padding: 0.68rem 0.82rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
 }
 
 .dm-message-item.mine {
   align-self: flex-end;
-  background: rgba(102, 126, 234, 0.24);
-  border: 1px solid rgba(102, 126, 234, 0.5);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(99, 102, 241, 0.55));
+  border: 1px solid rgba(147, 197, 253, 0.5);
 }
 
 .dm-message-item.other {
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(249, 115, 22, 0.2));
+  border: 1px solid rgba(251, 191, 36, 0.34);
 }
 
 .dm-message-content {
@@ -173,7 +174,7 @@
   margin-top: 0.3rem;
   display: block;
   text-align: right;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 0.75rem;
 }
 
@@ -241,4 +242,3 @@
     max-width: 85%;
   }
 }
-

@@ -10,6 +10,19 @@ import './DirectMessage.css';
 
 const POLLING_INTERVAL_MS = 3000;
 
+const normalizeMessage = (message, currentUserId) => ({
+  ...message,
+  isMine:
+    typeof message?.isMine === 'boolean'
+      ? message.isMine
+      : Number(message?.senderId) === Number(currentUserId),
+});
+
+const normalizeMessages = (messages, currentUserId) =>
+  (Array.isArray(messages) ? messages : []).map((message) =>
+    normalizeMessage(message, currentUserId)
+  );
+
 const sortMessagesAsc = (messages) =>
   [...messages].sort((a, b) => {
     if (a.id && b.id) return a.id - b.id;
@@ -72,7 +85,7 @@ function DirectMessage() {
     setMessagesLoading(true);
     try {
       const fetched = await dmApi.getMessages(roomId, accessToken, 0, 50);
-      const ascMessages = sortMessagesAsc(fetched);
+      const ascMessages = sortMessagesAsc(normalizeMessages(fetched, user?.id));
       setMessages(ascMessages);
       const latestId = ascMessages[ascMessages.length - 1]?.id || 0;
       lastMessageIdRef.current = latestId;
@@ -87,7 +100,7 @@ function DirectMessage() {
     } finally {
       setMessagesLoading(false);
     }
-  }, [accessToken, fetchRooms]);
+  }, [accessToken, fetchRooms, user?.id]);
 
   useEffect(() => {
     if (!isAuthenticated && !roomsLoading) {
@@ -176,15 +189,16 @@ function DirectMessage() {
           lastMessageIdRef.current || 0,
           accessToken
         );
+        const normalizedNewMessages = normalizeMessages(newMessages, user?.id);
 
-        if (newMessages.length > 0) {
+        if (normalizedNewMessages.length > 0) {
           setMessages((prev) => {
-            const merged = mergeMessages(prev, newMessages);
+            const merged = mergeMessages(prev, normalizedNewMessages);
             lastMessageIdRef.current = merged[merged.length - 1]?.id || 0;
             return merged;
           });
 
-          const hasIncomingFromOther = newMessages.some((msg) => !msg.isMine);
+          const hasIncomingFromOther = normalizedNewMessages.some((msg) => !msg.isMine);
           if (hasIncomingFromOther) {
             await dmApi.markAsRead(selectedRoomId, accessToken);
           }
@@ -199,7 +213,7 @@ function DirectMessage() {
 
     const intervalId = window.setInterval(pollNewMessages, POLLING_INTERVAL_MS);
     return () => window.clearInterval(intervalId);
-  }, [accessToken, fetchRooms, selectedRoomId]);
+  }, [accessToken, fetchRooms, selectedRoomId, user?.id]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -220,8 +234,9 @@ function DirectMessage() {
     setIsSending(true);
     try {
       const sent = await dmApi.sendMessage(selectedRoomId, trimmed, accessToken);
+      const normalizedSent = normalizeMessage(sent, user?.id);
       setMessages((prev) => {
-        const merged = mergeMessages(prev, [sent]);
+        const merged = mergeMessages(prev, [normalizedSent]);
         lastMessageIdRef.current = merged[merged.length - 1]?.id || 0;
         return merged;
       });
