@@ -24,8 +24,8 @@ const TECH_CATEGORIES = [
     title: 'Back-End',
     icon: '⚙️',
     color: '#6ee7b7',    // 초록 계열
-    gradient: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.1))',
-    border: 'rgba(16,185,129,0.3)',
+    gradient: 'linear-gradient(135deg, rgba(16,185,129,0.45), rgba(5,150,105,0.3))',
+    border: 'rgba(16,185,129,0.7)',
     techs: [
       { name: 'Java 17',           img: imgJava,       desc: 'LTS 버전, Record·Pattern Matching 지원' },
       { name: 'Spring Boot 4.0',   img: imgSpringBoot, desc: 'REST API · 의존성 주입 · 자동 설정' },
@@ -36,9 +36,9 @@ const TECH_CATEGORIES = [
     id: 'frontend',
     title: 'Front-End',
     icon: '🎨',
-    color: '#93c5fd',    // 파랑 계열
-    gradient: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(37,99,235,0.1))',
-    border: 'rgba(59,130,246,0.3)',
+    color: '#bfdbfe',    // 파랑 계열 (밝게)
+    gradient: 'linear-gradient(135deg, rgba(59,130,246,0.45), rgba(37,99,235,0.3))',
+    border: 'rgba(59,130,246,0.7)',
     techs: [
       { name: 'React 19',          img: imgReact,      desc: 'SPA · Hooks · Context API · React Router' },
       { name: 'JavaScript ES2024', img: imgJavaScript, desc: 'Vite 빌드 · 모듈 번들링 · HMR 개발 환경' },
@@ -48,9 +48,9 @@ const TECH_CATEGORIES = [
     id: 'database',
     title: 'Database',
     icon: '🗄️',
-    color: '#fbbf24',    // 노랑 계열
-    gradient: 'linear-gradient(135deg, rgba(245,158,11,0.2), rgba(217,119,6,0.1))',
-    border: 'rgba(245,158,11,0.3)',
+    color: '#fde68a',    // 노랑 계열 (밝게)
+    gradient: 'linear-gradient(135deg, rgba(245,158,11,0.45), rgba(217,119,6,0.3))',
+    border: 'rgba(245,158,11,0.7)',
     techs: [
       { name: 'MySQL 8.0',         img: imgMySQL,      desc: 'InnoDB · 관계형 데이터 모델 · JPA/Hibernate' },
     ],
@@ -59,9 +59,9 @@ const TECH_CATEGORIES = [
     id: 'infra',
     title: 'Infrastructure',
     icon: '☁️',
-    color: '#f9a8d4',    // 분홍 계열
-    gradient: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(219,39,119,0.1))',
-    border: 'rgba(236,72,153,0.3)',
+    color: '#fbcfe8',    // 분홍 계열 (밝게)
+    gradient: 'linear-gradient(135deg, rgba(236,72,153,0.45), rgba(219,39,119,0.3))',
+    border: 'rgba(236,72,153,0.7)',
     techs: [
       { name: 'AWS Lightsail',     img: imgAWS,        desc: 'VPS 인스턴스 · 고정 IP · 프로덕션 서버' },
       { name: 'Docker',            img: imgDocker,     desc: '컨테이너 빌드·배포 · docker-compose 멀티 서비스' },
@@ -71,9 +71,9 @@ const TECH_CATEGORIES = [
     id: 'devops',
     title: 'DevOps / SCM',
     icon: '🔄',
-    color: '#c4b5fd',    // 보라 계열
-    gradient: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(109,40,217,0.1))',
-    border: 'rgba(139,92,246,0.3)',
+    color: '#ddd6fe',    // 보라 계열 (밝게)
+    gradient: 'linear-gradient(135deg, rgba(139,92,246,0.45), rgba(109,40,217,0.3))',
+    border: 'rgba(139,92,246,0.7)',
     techs: [
       { name: 'GitHub Actions',    img: imgGitHub,     desc: 'push → 빌드 → Docker 이미지 → Lightsail 자동 배포' },
       { name: 'Git / GitHub',      img: imgGit,        desc: '소스코드 버전 관리 · 브랜치 전략 · 코드 리뷰' },
