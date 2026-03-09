@@ -30,6 +30,8 @@ const TECH_CATEGORIES = [
       { name: 'Java 17',           img: imgJava,       desc: 'LTS 버전, Record·Pattern Matching 지원' },
       { name: 'Spring Boot 4.0',   img: imgSpringBoot, desc: 'REST API · 의존성 주입 · 자동 설정' },
       { name: 'Spring Security',   img: imgSpringBoot, desc: 'JWT 인증·인가, OAuth2 카카오 소셜 로그인' },
+      { name: 'JWT',               icon: '🔐',          desc: 'Access/Refresh Token 기반 인증 · HTTP-only 쿠키 전략' },
+      { name: 'Kakao Developers',  icon: '💛',          desc: '카카오 로그인 앱 등록 · Redirect URI · OAuth2 연동' },
     ],
   },
   {
@@ -42,6 +44,7 @@ const TECH_CATEGORIES = [
     techs: [
       { name: 'React 19',          img: imgReact,      desc: 'SPA · Hooks · Context API · React Router' },
       { name: 'JavaScript ES2024', img: imgJavaScript, desc: 'Vite 빌드 · 모듈 번들링 · HMR 개발 환경' },
+      { name: 'Axios',             icon: '🛰️',          desc: 'HTTP 클라이언트 · 인증 헤더 · 인터셉터 기반 API 통신' },
     ],
   },
   {
@@ -65,6 +68,19 @@ const TECH_CATEGORIES = [
     techs: [
       { name: 'AWS Lightsail',     img: imgAWS,        desc: 'VPS 인스턴스 · 고정 IP · 프로덕션 서버' },
       { name: 'Docker',            img: imgDocker,     desc: '컨테이너 빌드·배포 · docker-compose 멀티 서비스' },
+      { name: 'Nginx',             icon: '🌐',          desc: '리버스 프록시 · 정적 파일 서빙 · SPA 라우팅 처리' },
+      { name: 'Amazon Linux 2023', icon: '🖥️',          desc: 'Lightsail 서버 OS · 컨테이너 실행 기반 호스팅 환경' },
+    ],
+  },
+  {
+    id: 'test',
+    title: 'Test Tools',
+    icon: '🧪',
+    color: '#fdba74',
+    gradient: 'linear-gradient(135deg, rgba(251,146,60,0.42), rgba(234,88,12,0.28))',
+    border: 'rgba(249,115,22,0.7)',
+    techs: [
+      { name: 'Postman', icon: '📬', desc: 'API 기능 테스트 · 인증 토큰 검증 · 요청/응답 시나리오 점검' },
     ],
   },
   {
@@ -100,6 +116,7 @@ const ARCH_ITEMS = [
   { layer: 'Nginx',   desc: '리버스 프록시 · SPA 라우팅 · 정적 파일 서빙', color: 'rgba(16,185,129,0.3)' },
   { layer: 'React',   desc: 'SPA · JWT 메모리 저장 · axios 인터셉터', color: 'rgba(139,92,246,0.3)' },
   { layer: 'Spring Boot', desc: 'REST API :9080 · Spring Security · JPA', color: 'rgba(245,158,11,0.3)' },
+  { layer: 'Amazon Linux 2023', desc: 'Lightsail 호스트 OS · Docker 엔진 실행 환경', color: 'rgba(14,165,233,0.3)' },
   { layer: 'MySQL',   desc: 'Docker 컨테이너 :3306 · prod-network 연결', color: 'rgba(236,72,153,0.3)' },
 ];
 
@@ -107,11 +124,18 @@ const ARCH_ITEMS = [
  * TechCard 컴포넌트 — 개별 기술 카드
  */
 function TechCard({ tech }) {
+  const hasImage = Boolean(tech.img);
   return (
     <div className="about-tech-card">
-      <div className="about-tech-card-img-wrap">
-        <img src={tech.img} alt={tech.name} className="about-tech-card-img" />
-      </div>
+      {hasImage ? (
+        <div className="about-tech-card-img-wrap">
+          <img src={tech.img} alt={tech.name} className="about-tech-card-img" />
+        </div>
+      ) : (
+        <div className="about-tech-card-icon-wrap" aria-label={tech.name}>
+          <span className="about-tech-card-icon">{tech.icon || '🔹'}</span>
+        </div>
+      )}
       <div className="about-tech-card-info">
         <div className="about-tech-card-name">{tech.name}</div>
         <div className="about-tech-card-desc">{tech.desc}</div>
@@ -128,6 +152,9 @@ function About() {
     <>
       <GNB />
       <div className="about-container">
+        <div className="about-bg-orb about-bg-orb--one" />
+        <div className="about-bg-orb about-bg-orb--two" />
+        <div className="about-bg-orb about-bg-orb--three" />
 
         {/* ── 히어로 ── */}
         <header className="about-hero">
@@ -139,10 +166,16 @@ function About() {
           <div className="about-hero-tags">
             <span className="about-hero-tag">Java 17</span>
             <span className="about-hero-tag">Spring Boot 4</span>
+            <span className="about-hero-tag">JWT</span>
+            <span className="about-hero-tag">Kakao Developers</span>
             <span className="about-hero-tag">React 19</span>
+            <span className="about-hero-tag">Axios</span>
             <span className="about-hero-tag">MySQL 8</span>
+            <span className="about-hero-tag">Nginx</span>
+            <span className="about-hero-tag">Amazon Linux 2023</span>
             <span className="about-hero-tag">Docker</span>
             <span className="about-hero-tag">AWS</span>
+            <span className="about-hero-tag">Postman</span>
             <span className="about-hero-tag">GitHub Actions</span>
           </div>
         </header>
