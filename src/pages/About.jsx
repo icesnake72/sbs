@@ -1,303 +1,264 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GNB from '../components/Gnb';
 import Footer from '../components/Footer';
 import './About.css';
 
+// ── 기술 스택 이미지 임포트 ──
+import imgJava        from '../assets/java.png';
+import imgSpringBoot  from '../assets/spring_boot.png';
+import imgReact       from '../assets/react.png';
+import imgJavaScript  from '../assets/javascript.png';
+import imgMySQL       from '../assets/mysql.png';
+import imgDocker      from '../assets/docker.webp';
+import imgAWS         from '../assets/aws_logo.svg.png';
+import imgGit         from '../assets/git.png';
+import imgGitHub      from '../assets/GitHub-logo.png';
+
 /**
- * API 카탈로그 탭 데이터
- * 각 탭은 도메인별 엔드포인트 목록을 포함합니다.
+ * 기술 스택 카테고리 데이터
+ * 각 카테고리는 여러 기술 항목을 포함합니다.
  */
-const API_TABS = [
+const TECH_CATEGORIES = [
   {
-    id: 'auth',
-    label: 'Auth',
-    endpoints: [
-      { method: 'GET',    path: '/api/health',                  auth: false, desc: '헬스체크' },
-      { method: 'POST',   path: '/api/signup',                  auth: false, desc: '회원가입' },
-      { method: 'POST',   path: '/api/login',                   auth: false, desc: '로그인' },
-      { method: 'POST',   path: '/api/refresh',                 auth: false, desc: 'Access Token 재발급' },
-      { method: 'POST',   path: '/api/logout',                  auth: true,  desc: '로그아웃' },
+    id: 'backend',
+    title: 'Back-End',
+    icon: '⚙️',
+    color: '#6ee7b7',    // 초록 계열
+    gradient: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.1))',
+    border: 'rgba(16,185,129,0.3)',
+    techs: [
+      { name: 'Java 17',           img: imgJava,       desc: 'LTS 버전, Record·Pattern Matching 지원' },
+      { name: 'Spring Boot 4.0',   img: imgSpringBoot, desc: 'REST API · 의존성 주입 · 자동 설정' },
+      { name: 'Spring Security',   img: imgSpringBoot, desc: 'JWT 인증·인가, OAuth2 카카오 소셜 로그인' },
     ],
   },
   {
-    id: 'user',
-    label: 'User',
-    endpoints: [
-      { method: 'GET',    path: '/api/user/me',                 auth: true,  desc: '내 계정 정보' },
-      { method: 'GET',    path: '/api/user/profile',            auth: true,  desc: '내 프로필 조회' },
-      { method: 'PUT',    path: '/api/user/profile',            auth: true,  desc: '프로필 수정' },
-      { method: 'POST',   path: '/api/upload/image',            auth: true,  desc: '이미지 업로드' },
+    id: 'frontend',
+    title: 'Front-End',
+    icon: '🎨',
+    color: '#93c5fd',    // 파랑 계열
+    gradient: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(37,99,235,0.1))',
+    border: 'rgba(59,130,246,0.3)',
+    techs: [
+      { name: 'React 19',          img: imgReact,      desc: 'SPA · Hooks · Context API · React Router' },
+      { name: 'JavaScript ES2024', img: imgJavaScript, desc: 'Vite 빌드 · 모듈 번들링 · HMR 개발 환경' },
     ],
   },
   {
-    id: 'post',
-    label: 'Post',
-    endpoints: [
-      { method: 'GET',    path: '/api/posts',                   auth: true,  desc: '게시글 목록' },
-      { method: 'GET',    path: '/api/posts/{id}',              auth: true,  desc: '게시글 상세' },
-      { method: 'POST',   path: '/api/posts',                   auth: true,  desc: '게시글 작성' },
-      { method: 'POST',   path: '/api/posts/with-images',       auth: true,  desc: '이미지 포함 작성' },
-      { method: 'PUT',    path: '/api/posts/{id}',              auth: true,  desc: '게시글 수정' },
-      { method: 'DELETE', path: '/api/posts/{id}',              auth: true,  desc: '게시글 삭제' },
+    id: 'database',
+    title: 'Database',
+    icon: '🗄️',
+    color: '#fbbf24',    // 노랑 계열
+    gradient: 'linear-gradient(135deg, rgba(245,158,11,0.2), rgba(217,119,6,0.1))',
+    border: 'rgba(245,158,11,0.3)',
+    techs: [
+      { name: 'MySQL 8.0',         img: imgMySQL,      desc: 'InnoDB · 관계형 데이터 모델 · JPA/Hibernate' },
     ],
   },
   {
-    id: 'social',
-    label: 'Social',
-    endpoints: [
-      { method: 'POST',   path: '/api/posts/{postId}/comments', auth: true,  desc: '댓글 작성' },
-      { method: 'POST',   path: '/api/posts/{postId}/like',     auth: true,  desc: '게시글 좋아요' },
-      { method: 'POST',   path: '/api/posts/{postId}/bookmark', auth: true,  desc: '북마크' },
-      { method: 'POST',   path: '/api/users/{userId}/follow',   auth: true,  desc: '팔로우' },
-      { method: 'GET',    path: '/api/feed/explore',            auth: true,  desc: '탐색 피드' },
-      { method: 'GET',    path: '/api/hashtags/trending',       auth: true,  desc: '트렌딩 해시태그' },
+    id: 'infra',
+    title: 'Infrastructure',
+    icon: '☁️',
+    color: '#f9a8d4',    // 분홍 계열
+    gradient: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(219,39,119,0.1))',
+    border: 'rgba(236,72,153,0.3)',
+    techs: [
+      { name: 'AWS Lightsail',     img: imgAWS,        desc: 'VPS 인스턴스 · 고정 IP · 프로덕션 서버' },
+      { name: 'Docker',            img: imgDocker,     desc: '컨테이너 빌드·배포 · docker-compose 멀티 서비스' },
     ],
   },
   {
-    id: 'dm',
-    label: 'DM',
-    endpoints: [
-      { method: 'POST',   path: '/api/dm/rooms',                        auth: true, desc: '채팅방 생성/조회' },
-      { method: 'GET',    path: '/api/dm/rooms',                        auth: true, desc: '채팅방 목록' },
-      { method: 'GET',    path: '/api/dm/rooms/{roomId}/messages',      auth: true, desc: '메시지 조회' },
-      { method: 'POST',   path: '/api/dm/rooms/{roomId}/messages',      auth: true, desc: '메시지 전송' },
-      { method: 'PUT',    path: '/api/dm/rooms/{roomId}/read',          auth: true, desc: '읽음 처리' },
-      { method: 'GET',    path: '/api/dm/unread-count',                 auth: true, desc: '안읽음 카운트' },
+    id: 'devops',
+    title: 'DevOps / SCM',
+    icon: '🔄',
+    color: '#c4b5fd',    // 보라 계열
+    gradient: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(109,40,217,0.1))',
+    border: 'rgba(139,92,246,0.3)',
+    techs: [
+      { name: 'GitHub Actions',    img: imgGitHub,     desc: 'push → 빌드 → Docker 이미지 → Lightsail 자동 배포' },
+      { name: 'Git / GitHub',      img: imgGit,        desc: '소스코드 버전 관리 · 브랜치 전략 · 코드 리뷰' },
     ],
   },
 ];
 
 /**
- * 기술 스택 카드 데이터
+ * CI/CD 파이프라인 단계
  */
-const STACK_CARDS = [
-  { label: 'Runtime',         value: 'Java 17' },
-  { label: 'Framework',       value: 'Spring Boot 4.0.0' },
-  { label: 'Security',        value: 'JWT + Security 7.x' },
-  { label: 'Database',        value: 'MySQL 8.0' },
-  { label: 'API Base',        value: 'http://localhost:9080' },
-  { label: 'Token',           value: 'AT 1h / RT 7d' },
-  { label: 'Upload',          value: '/api/upload/image' },
-  { label: 'Common Response', value: 'ApiResponse<T>' },
+const CICD_STEPS = [
+  { icon: '💻', label: 'git push',      sub: 'main 브랜치' },
+  { icon: '⚡', label: 'GitHub Actions', sub: '워크플로우 트리거' },
+  { icon: '🏗️', label: 'Docker Build',  sub: 'React + Nginx 이미지' },
+  { icon: '📦', label: 'GHCR Push',     sub: 'ghcr.io 이미지 등록' },
+  { icon: '🚀', label: 'Lightsail 배포', sub: 'docker compose up' },
 ];
 
 /**
- * 인증 흐름 단계
+ * 아키텍처 구성 요소
  */
-const AUTH_FLOW_STEPS = [
-  'POST /api/login',
-  'AccessToken 저장',
-  'API 요청 + Bearer',
-  '401 + TOKEN_EXPIRED',
-  'POST /api/refresh 후 재시도',
+const ARCH_ITEMS = [
+  { layer: '브라우저', desc: 'HTTP :80', color: 'rgba(59,130,246,0.3)' },
+  { layer: 'Nginx',   desc: '리버스 프록시 · SPA 라우팅 · 정적 파일 서빙', color: 'rgba(16,185,129,0.3)' },
+  { layer: 'React',   desc: 'SPA · JWT 메모리 저장 · axios 인터셉터', color: 'rgba(139,92,246,0.3)' },
+  { layer: 'Spring Boot', desc: 'REST API :9080 · Spring Security · JPA', color: 'rgba(245,158,11,0.3)' },
+  { layer: 'MySQL',   desc: 'Docker 컨테이너 :3306 · prod-network 연결', color: 'rgba(236,72,153,0.3)' },
 ];
 
 /**
- * 환경/배포 체크 항목
+ * TechCard 컴포넌트 — 개별 기술 카드
  */
-const ENV_CHECKS = [
-  { item: 'API Base URL',  value: 'VITE_API_BASE_URL 이 Nginx /api 프록시와 일치', status: 'ok',   label: '필수' },
-  { item: 'CORS',          value: '백엔드 allowed-origins 에 프론트 도메인 포함',   status: 'ok',   label: '필수' },
-  { item: 'Cookie 전달',   value: 'axios withCredentials: true',                    status: 'ok',   label: '필수' },
-  { item: 'Logout Path',   value: '/api/logout 호출 시 withCredentials 필수',       status: 'warn', label: '주의' },
-  { item: '401 분기',      value: 'TOKEN_EXPIRED 면 refresh 재시도',                status: 'warn', label: '주의' },
-  { item: '쿠키 도메인',   value: '백엔드 domain() 미설정 권장 (자동으로 현재 도메인 바인딩)', status: 'warn', label: '주의' },
-];
-
-/**
- * HTTP 메서드별 색상 클래스
- */
-function MethodBadge({ method }) {
+function TechCard({ tech }) {
   return (
-    <span className={`about-method about-method--${method.toLowerCase()}`}>
-      {method}
-    </span>
+    <div className="about-tech-card">
+      <div className="about-tech-card-img-wrap">
+        <img src={tech.img} alt={tech.name} className="about-tech-card-img" />
+      </div>
+      <div className="about-tech-card-info">
+        <div className="about-tech-card-name">{tech.name}</div>
+        <div className="about-tech-card-desc">{tech.desc}</div>
+      </div>
+    </div>
   );
 }
 
 /**
- * About 페이지 컴포넌트
- *
- * 백엔드 기술 스펙을 정리한 프로젝트 소개 페이지입니다.
- * - 기술 스택 요약
- * - 인증/토큰 흐름
- * - API 카탈로그 (탭 방식)
- * - 환경/배포 체크리스트
+ * About 페이지 — 프로젝트 기술 스펙 비주얼 소개
  */
 function About() {
-  // 현재 선택된 API 탭 ID
-  const [activeTab, setActiveTab] = useState('auth');
-
-  // 활성화된 탭의 엔드포인트 목록
-  const activeEndpoints = API_TABS.find((t) => t.id === activeTab)?.endpoints ?? [];
-
   return (
     <>
       <GNB />
       <div className="about-container">
 
-        {/* ── 히어로 헤더 ── */}
+        {/* ── 히어로 ── */}
         <header className="about-hero">
-          <div className="about-hero-content">
-            <h1 className="about-hero-title">myauth React 연동 기술 문서</h1>
-            <p className="about-hero-desc">
-              백엔드 기술 스펙을 프론트엔드 관점에서 재구성한 참고 문서입니다.
-            </p>
-            <p className="about-hero-desc">대상: React + Nginx + JavaScript</p>
-            <div className="about-chips">
-              <span className="about-chip">Source: BACKEND_TECH_SPEC</span>
-              <span className="about-chip">Updated: 2026-03-10</span>
-              <span className="about-chip">Format: React Component</span>
-            </div>
+          <div className="about-hero-badge">Tech Stack</div>
+          <h1 className="about-hero-title">Project Specification</h1>
+          <p className="about-hero-sub">
+            풀스택 소셜 플랫폼 · Java 17 + Spring Boot · React · AWS Lightsail · Docker · CI/CD
+          </p>
+          <div className="about-hero-tags">
+            <span className="about-hero-tag">Java 17</span>
+            <span className="about-hero-tag">Spring Boot 4</span>
+            <span className="about-hero-tag">React 19</span>
+            <span className="about-hero-tag">MySQL 8</span>
+            <span className="about-hero-tag">Docker</span>
+            <span className="about-hero-tag">AWS</span>
+            <span className="about-hero-tag">GitHub Actions</span>
           </div>
         </header>
 
-        {/* ── 기술 스택 요약 ── */}
+        {/* ── 기술 스택 카테고리 ── */}
+        {TECH_CATEGORIES.map((cat) => (
+          <section
+            key={cat.id}
+            className="about-cat-section"
+            style={{ background: cat.gradient, borderColor: cat.border }}
+          >
+            {/* 카테고리 헤더 */}
+            <div className="about-cat-header">
+              <span className="about-cat-icon">{cat.icon}</span>
+              <h2 className="about-cat-title" style={{ color: cat.color }}>{cat.title}</h2>
+            </div>
+
+            {/* 기술 카드 목록 */}
+            <div className="about-tech-list">
+              {cat.techs.map((tech) => (
+                <TechCard key={tech.name} tech={tech} />
+              ))}
+            </div>
+          </section>
+        ))}
+
+        {/* ── 시스템 아키텍처 ── */}
         <section className="about-section">
-          <h2 className="about-section-title">기술 스택 요약</h2>
-          <p className="about-section-sub">프론트 의사결정에 직접 영향이 큰 백엔드 핵심 스펙</p>
-          <div className="about-stack-grid">
-            {STACK_CARDS.map((card) => (
-              <article key={card.label} className="about-stack-card">
-                <div className="about-stack-card-label">{card.label}</div>
-                <div className="about-stack-card-value">{card.value}</div>
-              </article>
+          <h2 className="about-section-title">🏛️ 시스템 아키텍처</h2>
+          <p className="about-section-sub">요청이 브라우저에서 DB까지 흐르는 구조</p>
+          <div className="about-arch">
+            {ARCH_ITEMS.map((item, idx) => (
+              <div key={idx} className="about-arch-row">
+                <div
+                  className="about-arch-layer"
+                  style={{ background: item.color, borderColor: item.color.replace('0.3', '0.5') }}
+                >
+                  <span className="about-arch-layer-name">{item.layer}</span>
+                  <span className="about-arch-layer-desc">{item.desc}</span>
+                </div>
+                {idx < ARCH_ITEMS.length - 1 && (
+                  <div className="about-arch-arrow">↓</div>
+                )}
+              </div>
             ))}
           </div>
         </section>
 
-        {/* ── 인증/토큰 흐름 ── */}
+        {/* ── CI/CD 파이프라인 ── */}
         <section className="about-section">
-          <h2 className="about-section-title">인증/토큰 흐름</h2>
-          <p className="about-section-sub">React 인터셉터, 세션 복구, 401 분기 처리의 기준 흐름</p>
-
-          <div className="about-flow">
-            {AUTH_FLOW_STEPS.map((step, idx) => (
-              <div key={idx} className="about-flow-item">
-                <div className="about-flow-num">{idx + 1}</div>
-                <div className="about-flow-text">{step}</div>
-                {/* 화살표 (마지막 항목 제외) */}
-                {idx < AUTH_FLOW_STEPS.length - 1 && (
-                  <div className="about-flow-arrow">→</div>
+          <h2 className="about-section-title">🚀 CI/CD 파이프라인</h2>
+          <p className="about-section-sub">GitHub Actions 기반 자동 빌드·배포 흐름</p>
+          <div className="about-cicd">
+            {CICD_STEPS.map((step, idx) => (
+              <div key={idx} className="about-cicd-item">
+                <div className="about-cicd-icon">{step.icon}</div>
+                <div className="about-cicd-label">{step.label}</div>
+                <div className="about-cicd-sub">{step.sub}</div>
+                {idx < CICD_STEPS.length - 1 && (
+                  <div className="about-cicd-arrow">→</div>
                 )}
               </div>
             ))}
           </div>
 
-          <div className="about-badges">
-            <span className="about-badge about-badge--ok">웹: RefreshToken은 HttpOnly 쿠키</span>
-            <span className="about-badge about-badge--warn">요청 시 withCredentials 필수</span>
-            <span className="about-badge about-badge--err">INVALID_TOKEN 이면 즉시 로그아웃</span>
-          </div>
-
-          <pre className="about-code">{`// axios 기본 설정
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
-  withCredentials: true   // HTTP-only 쿠키 자동 전송
-});`}</pre>
-        </section>
-
-        {/* ── API 카탈로그 ── */}
-        <section className="about-section">
-          <h2 className="about-section-title">API 카탈로그</h2>
-          <p className="about-section-sub">도메인별 엔드포인트 (탭으로 분리)</p>
-
-          {/* 탭 버튼 */}
-          <div className="about-tabs">
-            {API_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                className={`about-tab ${activeTab === tab.id ? 'about-tab--active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* 엔드포인트 테이블 */}
-          <div className="about-table-wrap">
-            <table className="about-table">
-              <thead>
-                <tr>
-                  <th>Method</th>
-                  <th>Path</th>
-                  <th>Auth</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeEndpoints.map((ep, idx) => (
-                  <tr key={idx}>
-                    <td><MethodBadge method={ep.method} /></td>
-                    <td className="about-table-path">{ep.path}</td>
-                    <td>
-                      <span className={`about-auth-badge ${ep.auth ? 'about-auth-badge--required' : 'about-auth-badge--none'}`}>
-                        {ep.auth ? '필요' : '없음'}
-                      </span>
-                    </td>
-                    <td className="about-table-desc">{ep.desc}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {/* Docker 네트워크 구성 */}
+          <div className="about-docker-net">
+            <div className="about-docker-net-title">
+              <img src={imgDocker} alt="Docker" className="about-docker-net-logo" />
+              Docker prod-network 구성
+            </div>
+            <div className="about-docker-net-grid">
+              <div className="about-docker-net-box about-docker-net-box--nginx">
+                <div className="about-docker-net-name">prod-frontend</div>
+                <div className="about-docker-net-tech">Nginx + React</div>
+                <div className="about-docker-net-port">:80</div>
+              </div>
+              <div className="about-docker-net-conn">←→</div>
+              <div className="about-docker-net-box about-docker-net-box--spring">
+                <div className="about-docker-net-name">prod-backend</div>
+                <div className="about-docker-net-tech">Spring Boot</div>
+                <div className="about-docker-net-port">:9080</div>
+              </div>
+              <div className="about-docker-net-conn">←→</div>
+              <div className="about-docker-net-box about-docker-net-box--db">
+                <div className="about-docker-net-name">mysql</div>
+                <div className="about-docker-net-tech">MySQL 8.0</div>
+                <div className="about-docker-net-port">:3306</div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ── 환경/배포 체크 ── */}
+        {/* ── 주요 기능 ── */}
         <section className="about-section">
-          <h2 className="about-section-title">환경/배포 체크리스트</h2>
-          <p className="about-section-sub">React + Nginx 배포 시 빠르게 검증할 항목</p>
-
-          <div className="about-check-list">
-            {ENV_CHECKS.map((check) => (
-              <div key={check.item} className="about-check-item">
-                <div className="about-check-header">
-                  <span className="about-check-name">{check.item}</span>
-                  <span className={`about-badge about-badge--${check.status}`}>{check.label}</span>
+          <h2 className="about-section-title">✨ 구현 기능</h2>
+          <p className="about-section-sub">현재 서비스에서 제공하는 기능 목록</p>
+          <div className="about-features">
+            {[
+              { icon: '🔐', title: '인증',       items: ['이메일/비번 로그인', '카카오 소셜 로그인', 'JWT Access + Refresh Token', 'HTTP-only 쿠키 보안'] },
+              { icon: '👤', title: '프로필',     items: ['프로필 이미지 업로드', '소개글 수정', '팔로우/팔로워', '프로필 조회'] },
+              { icon: '📝', title: '게시글',     items: ['텍스트 + 다중 이미지', '공개 범위 설정', '피드 목록 조회', '게시글 상세/삭제'] },
+              { icon: '🔧', title: '인프라',     items: ['Docker 컨테이너화', 'Nginx 리버스 프록시', 'GitHub Actions CI/CD', 'AWS Lightsail 배포'] },
+            ].map((feat) => (
+              <div key={feat.title} className="about-feature-card">
+                <div className="about-feature-card-header">
+                  <span className="about-feature-icon">{feat.icon}</span>
+                  <span className="about-feature-title">{feat.title}</span>
                 </div>
-                <p className="about-check-value">{check.value}</p>
+                <ul className="about-feature-list">
+                  {feat.items.map((item) => (
+                    <li key={item} className="about-feature-item">{item}</li>
+                  ))}
+                </ul>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* ── React 연동 코드 샘플 ── */}
-        <section className="about-section">
-          <h2 className="about-section-title">React 연동 코드 샘플</h2>
-          <p className="about-section-sub">바로 복사해 사용할 수 있는 패턴</p>
-
-          <div className="about-sample">
-            <div className="about-sample-title">axios 인터셉터 – 401 자동 재시도</div>
-            <pre className="about-code">{`api.interceptors.response.use(
-  (res) => res,
-  async (error) => {
-    const { response, config } = error;
-    if (response?.status === 401 && !config._retry) {
-      config._retry = true;
-      try {
-        await axios.post('/api/refresh', {}, { withCredentials: true });
-        return api(config); // 원래 요청 재시도
-      } catch {
-        // refreshToken 도 만료 → 로그아웃
-      }
-    }
-    return Promise.reject(error);
-  }
-);`}</pre>
-          </div>
-
-          <div className="about-sample">
-            <div className="about-sample-title">이미지 업로드</div>
-            <pre className="about-code">{`const formData = new FormData();
-formData.append('file', file);
-
-const res = await axios.post('/api/upload/image', formData, {
-  headers: { 'Content-Type': 'multipart/form-data' },
-  withCredentials: true,
-});
-const imageUrl = res.data.data.imageUrl; // http://서버/uploads/uuid.jpg`}</pre>
           </div>
         </section>
 
