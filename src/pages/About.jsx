@@ -13,6 +13,12 @@ import imgDocker      from '../assets/docker.webp';
 import imgAWS         from '../assets/aws_logo.svg.png';
 import imgGit         from '../assets/git.png';
 import imgGitHub      from '../assets/GitHub-logo.png';
+import imgJwt         from '../assets/jwt.png';
+import imgKakaoDev    from '../assets/kakao_developer.png';
+import imgAxios       from '../assets/axios.png';
+import imgNginx       from '../assets/nginx.png';
+import imgAmazonLinux from '../assets/Amazon_Linux_Logo_v08_Amazon-Linux-right—full-color-1260x616.png';
+import imgPostman     from '../assets/postman.png';
 
 /**
  * 기술 스택 카테고리 데이터
@@ -30,8 +36,8 @@ const TECH_CATEGORIES = [
       { name: 'Java 17',           img: imgJava,       desc: 'LTS 버전, Record·Pattern Matching 지원' },
       { name: 'Spring Boot 4.0',   img: imgSpringBoot, desc: 'REST API · 의존성 주입 · 자동 설정' },
       { name: 'Spring Security',   img: imgSpringBoot, desc: 'JWT 인증·인가, OAuth2 카카오 소셜 로그인' },
-      { name: 'JWT',               icon: '🔐',          desc: 'Access/Refresh Token 기반 인증 · HTTP-only 쿠키 전략' },
-      { name: 'Kakao Developers',  icon: '💛',          desc: '카카오 로그인 앱 등록 · Redirect URI · OAuth2 연동' },
+      { name: 'JWT',               img: imgJwt,         desc: 'Access/Refresh Token 기반 인증 · HTTP-only 쿠키 전략' },
+      { name: 'Kakao Developers',  img: imgKakaoDev,    desc: '카카오 로그인 앱 등록 · Redirect URI · OAuth2 연동' },
     ],
   },
   {
@@ -44,7 +50,7 @@ const TECH_CATEGORIES = [
     techs: [
       { name: 'React 19',          img: imgReact,      desc: 'SPA · Hooks · Context API · React Router' },
       { name: 'JavaScript ES2024', img: imgJavaScript, desc: 'Vite 빌드 · 모듈 번들링 · HMR 개발 환경' },
-      { name: 'Axios',             icon: '🛰️',          desc: 'HTTP 클라이언트 · 인증 헤더 · 인터셉터 기반 API 통신' },
+      { name: 'Axios',             img: imgAxios,      desc: 'HTTP 클라이언트 · 인증 헤더 · 인터셉터 기반 API 통신' },
     ],
   },
   {
@@ -68,8 +74,8 @@ const TECH_CATEGORIES = [
     techs: [
       { name: 'AWS Lightsail',     img: imgAWS,        desc: 'VPS 인스턴스 · 고정 IP · 프로덕션 서버' },
       { name: 'Docker',            img: imgDocker,     desc: '컨테이너 빌드·배포 · docker-compose 멀티 서비스' },
-      { name: 'Nginx',             icon: '🌐',          desc: '리버스 프록시 · 정적 파일 서빙 · SPA 라우팅 처리' },
-      { name: 'Amazon Linux 2023', icon: '🖥️',          desc: 'Lightsail 서버 OS · 컨테이너 실행 기반 호스팅 환경' },
+      { name: 'Nginx',             img: imgNginx,      desc: '리버스 프록시 · 정적 파일 서빙 · SPA 라우팅 처리' },
+      { name: 'Amazon Linux 2023', img: imgAmazonLinux, desc: 'Lightsail 서버 OS · 컨테이너 실행 기반 호스팅 환경' },
     ],
   },
   {
@@ -80,7 +86,7 @@ const TECH_CATEGORIES = [
     gradient: 'linear-gradient(135deg, rgba(251,146,60,0.42), rgba(234,88,12,0.28))',
     border: 'rgba(249,115,22,0.7)',
     techs: [
-      { name: 'Postman', icon: '📬', desc: 'API 기능 테스트 · 인증 토큰 검증 · 요청/응답 시나리오 점검' },
+      { name: 'Postman', img: imgPostman, desc: 'API 기능 테스트 · 인증 토큰 검증 · 요청/응답 시나리오 점검' },
     ],
   },
   {
