@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>myauth React 연동 컴포넌트 문서</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --panel: #fffdf9;
+      --ink: #1c232b;
+      --muted: #5d6773;
+      --line: #dad2c5;
+      --brand: #0f766e;
+      --brand-2: #b45309;
+      --ok: #166534;
+      --warn: #b45309;
+      --err: #b91c1c;
+      --shadow: 0 8px 24px rgba(28, 35, 43, 0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0% 0%, #efe6d7 0%, transparent 40%),
+        radial-gradient(circle at 100% 20%, #d7ebe8 0%, transparent 35%),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #0f766e 0%, #115e59 50%, #134e4a 100%);
+      color: #f3fffd;
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(22px, 4vw, 34px);
+      letter-spacing: -0.02em;
+    }
+
+    .hero p { margin: 6px 0; color: #d9f4f0; }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+    }
+
+    .side,
+    .main > section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .side {
+      padding: 16px;
+      position: sticky;
+      top: 12px;
+      align-self: start;
+    }
+
+    .side h2 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .side a {
+      display: block;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .side a:hover { background: #edf7f5; }
+
+    .main {
+      display: grid;
+      gap: 16px;
+    }
+
+    .main > section {
+      padding: 20px;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .sub {
+      margin-top: -4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .card .k { font-size: 12px; color: var(--muted); }
+    .card .v { font-size: 16px; font-weight: 700; margin-top: 4px; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .node {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      background: #fff;
+      font-size: 13px;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f2eee7;
+      font-size: 12px;
+      color: #3f4853;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .http {
+      display: inline-flex;
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .get { background: #0f766e; }
+    .post { background: #2563eb; }
+    .put { background: #b45309; }
+    .delete { background: #b91c1c; }
+
+    .status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid;
+    }
+
+    .status.ok { color: var(--ok); border-color: #86efac; background: #f0fdf4; }
+    .status.warn { color: var(--warn); border-color: #fcd34d; background: #fffbeb; }
+    .status.err { color: var(--err); border-color: #fca5a5; background: #fef2f2; }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .tab.active {
+      background: #083b37;
+      color: #fff;
+      border-color: #083b37;
+    }
+
+    .endpoint-group { display: none; }
+    .endpoint-group.active { display: block; }
+
+    pre {
+      background: #1b2128;
+      color: #e6edf3;
+      padding: 14px;
+      border-radius: 12px;
+      overflow-x: auto;
+      border: 1px solid #2d333b;
+      font-size: 13px;
+    }
+
+    .component-sample {
+      border: 1px dashed #93a2b7;
+      padding: 14px;
+      border-radius: 12px;
+      background: #fbfdff;
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .side { position: static; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>myauth React 연동 HTML 컴포넌트 문서</h1>
+      <p>백엔드 기술 스펙을 프론트 개발 화면에서 바로 활용할 수 있도록 재구성한 컴포넌트형 문서</p>
+      <p>대상: React + Nginx + JavaScript 프로젝트</p>
+      <div class="meta">
+        <span class="chip">Source: docs/BACKEND_TECH_SPEC.md</span>
+        <span class="chip">Updated: 2026-03-09</span>
+        <span class="chip">Format: HTML + CSS + Vanilla JS</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="side">
+        <h2>Quick Nav</h2>
+        <a href="#stack">기술 스택 요약</a>
+        <a href="#auth">인증/토큰 흐름</a>
+        <a href="#api">API 카탈로그</a>
+        <a href="#env">환경/배포 체크</a>
+        <a href="#components">React용 HTML 컴포넌트 샘플</a>
+      </aside>
+
+      <main class="main">
+        <section id="stack">
+          <h3>기술 스택 요약</h3>
+          <p class="sub">프론트 의사결정에 직접 영향이 큰 백엔드 핵심 스펙</p>
+          <div class="grid-4">
+            <article class="card"><div class="k">Runtime</div><div class="v">Java 17</div></article>
+            <article class="card"><div class="k">Framework</div><div class="v">Spring Boot 4.0.0</div></article>
+            <article class="card"><div class="k">Security</div><div class="v">JWT + Security 7.x</div></article>
+            <article class="card"><div class="k">Database</div><div class="v">MySQL 8.0</div></article>
+            <article class="card"><div class="k">API Base</div><div class="v">http://localhost:9080</div></article>
+            <article class="card"><div class="k">Token</div><div class="v">AT 1h / RT 7d</div></article>
+            <article class="card"><div class="k">Upload</div><div class="v">/api/upload/image</div></article>
+            <article class="card"><div class="k">Common Response</div><div class="v">ApiResponse&lt;T&gt;</div></article>
+          </div>
+        </section>
+
+        <section id="auth">
+          <h3>인증/토큰 흐름 컴포넌트</h3>
+          <p class="sub">React 인터셉터, 세션 복구, 401 분기 처리의 기준 흐름</p>
+          <div class="flow">
+            <div class="node">1) `POST /api/login`</div>
+            <div class="node">2) AccessToken 저장</div>
+            <div class="node">3) API 요청 + Bearer</div>
+            <div class="node">4) 401 + TOKEN_EXPIRED</div>
+            <div class="node">5) `POST /api/refresh` 후 재시도</div>
+          </div>
+          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="status ok">웹: RefreshToken은 HttpOnly 쿠키</span>
+            <span class="status warn">요청시 withCredentials 필수</span>
+            <span class="status err">INVALID_TOKEN이면 즉시 로그아웃</span>
+          </div>
+          <pre><code>// axios 기본 설정 (요약)
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:9080',
+  withCredentials: true
+});</code></pre>
+        </section>
+
+        <section id="api">
+          <h3>API 카탈로그 컴포넌트</h3>
+          <p class="sub">도메인별 엔드포인트를 탭으로 분리한 재사용 가능한 문서 UI</p>
+
+          <div class="tabs" id="apiTabs">
+            <button class="tab active" data-target="authGroup">Auth</button>
+            <button class="tab" data-target="userGroup">User</button>
+            <button class="tab" data-target="postGroup">Post</button>
+            <button class="tab" data-target="socialGroup">Social</button>
+            <button class="tab" data-target="dmGroup">DM</button>
+          </div>
+
+          <div class="endpoint-group active" id="authGroup">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="http get">GET</span></td><td>/api/health</td><td>X</td><td>헬스체크</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/signup</td><td>X</td><td>회원가입</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/login</td><td>X</td><td>로그인</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/refresh</td><td>X</td><td>Access Token 재발급</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/logout</td><td>O</td><td>로그아웃 (Security 핸들러)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="endpoint-group" id="userGroup">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="http get">GET</span></td><td>/api/user/me</td><td>O</td><td>내 계정 정보</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/user/profile</td><td>O</td><td>내 프로필 조회</td></tr>
+                  <tr><td><span class="http put">PUT</span></td><td>/api/user/profile</td><td>O</td><td>프로필 수정</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/upload/image</td><td>O</td><td>이미지 업로드</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="endpoint-group" id="postGroup">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="http get">GET</span></td><td>/api/posts</td><td>O</td><td>게시글 목록</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/posts/{id}</td><td>O</td><td>게시글 상세</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/posts</td><td>O</td><td>게시글 작성</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/posts/with-images</td><td>O</td><td>이미지 포함 작성</td></tr>
+                  <tr><td><span class="http put">PUT</span></td><td>/api/posts/{id}</td><td>O</td><td>게시글 수정</td></tr>
+                  <tr><td><span class="http delete">DELETE</span></td><td>/api/posts/{id}</td><td>O</td><td>게시글 삭제</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="endpoint-group" id="socialGroup">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="http post">POST</span></td><td>/api/posts/{postId}/comments</td><td>O</td><td>댓글 작성</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/posts/{postId}/like</td><td>O</td><td>게시글 좋아요</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/posts/{postId}/bookmark</td><td>O</td><td>북마크</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/users/{userId}/follow</td><td>O</td><td>팔로우</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/feed/explore</td><td>O</td><td>탐색 피드</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/hashtags/trending</td><td>O</td><td>트렌딩 해시태그</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="endpoint-group" id="dmGroup">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="http post">POST</span></td><td>/api/dm/rooms</td><td>O</td><td>채팅방 생성/조회</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/dm/rooms</td><td>O</td><td>채팅방 목록</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/dm/rooms/{roomId}/messages</td><td>O</td><td>메시지 조회</td></tr>
+                  <tr><td><span class="http post">POST</span></td><td>/api/dm/rooms/{roomId}/messages</td><td>O</td><td>메시지 전송</td></tr>
+                  <tr><td><span class="http put">PUT</span></td><td>/api/dm/rooms/{roomId}/read</td><td>O</td><td>읽음 처리</td></tr>
+                  <tr><td><span class="http get">GET</span></td><td>/api/dm/unread-count</td><td>O</td><td>안읽음 카운트</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="env">
+          <h3>환경/배포 체크 컴포넌트</h3>
+          <p class="sub">React + Nginx에서 배포 시 빠르게 검증할 항목</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Check</th><th>Value</th><th>Result</th></tr></thead>
+              <tbody>
+                <tr><td>API Base URL</td><td>`VITE_API_BASE_URL`가 Nginx `/api` 프록시와 일치</td><td><span class="status ok">필수</span></td></tr>
+                <tr><td>CORS</td><td>백엔드 `allowed-origins`에 프론트 도메인 포함</td><td><span class="status ok">필수</span></td></tr>
+                <tr><td>Cookie 전달</td><td>axios `withCredentials: true`</td><td><span class="status ok">필수</span></td></tr>
+                <tr><td>Logout Path</td><td>`/logout` 호출 (not `/api/logout`)</td><td><span class="status warn">주의</span></td></tr>
+                <tr><td>401 분기</td><td>`TOKEN_EXPIRED`면 refresh 재시도</td><td><span class="status warn">주의</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="components">
+          <h3>React에서 바로 쓰는 HTML 컴포넌트 샘플</h3>
+          <p class="sub">아래 마크업은 JSX로 그대로 옮기기 쉬운 구조로 작성</p>
+
+          <div class="component-sample">
+            <strong>샘플 A. 스펙 요약 카드</strong>
+            <pre><code>&lt;article class="card"&gt;
+  &lt;div class="k"&gt;Security&lt;/div&gt;
+  &lt;div class="v"&gt;Spring Security 7.x + JWT&lt;/div&gt;
+&lt;/article&gt;</code></pre>
+          </div>
+
+          <div class="component-sample">
+            <strong>샘플 B. 엔드포인트 행</strong>
+            <pre><code>&lt;tr&gt;
+  &lt;td&gt;&lt;span class="http post"&gt;POST&lt;/span&gt;&lt;/td&gt;
+  &lt;td&gt;/api/posts/with-images&lt;/td&gt;
+  &lt;td&gt;O&lt;/td&gt;
+  &lt;td&gt;이미지 포함 게시글 작성&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+          </div>
+
+          <div class="component-sample">
+            <strong>샘플 C. 상태 배지</strong>
+            <pre><code>&lt;span class="status warn"&gt;TOKEN_EXPIRED → refresh 재시도&lt;/span&gt;</code></pre>
+          </div>
+
+          <div class="component-sample">
+            <strong>React 변환 팁</strong>
+            <pre><code>// class -> className 변경
+// 백틱 문자열은 템플릿 리터럴로 매핑
+// 탭 컴포넌트는 useState(activeTab) + map 렌더링으로 구현</code></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="footer">myauth frontend integration component doc</div>
+  </div>
+
+  <script>
+    (function () {
+      const tabs = document.querySelectorAll('#apiTabs .tab');
+      const groups = document.querySelectorAll('.endpoint-group');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach((t) => t.classList.remove('active'));
+          groups.forEach((g) => g.classList.remove('active'));
+          tab.classList.add('active');
+          const target = document.getElementById(tab.dataset.target);
+          if (target) target.classList.add('active');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
