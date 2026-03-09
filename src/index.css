@@ -7,8 +7,8 @@
   /* 기본 폰트 굵기를 400(normal)으로 설정 */
   font-weight: 400;
 
-  /* 라이트 모드와 다크 모드 모두 지원하도록 색상 스킴 설정 */
-  color-scheme: light dark;
+  /* 다크 테마 전용 앱이므로 dark로 고정 (라이트 모드 시스템에서도 다크 배경 유지) */
+  color-scheme: dark;
   /* 기본 텍스트 색상 (흰색에 87% 투명도 적용 - 다크 모드용) */
   color: rgba(255, 255, 255, 0.87);
   /* 기본 배경색 (어두운 회색 - 다크 모드용) */
@@ -94,23 +94,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* 사용자가 라이트 모드를 선호하는 경우 적용되는 스타일 */
-@media (prefers-color-scheme: light) {
-  /* 라이트 모드용 루트 스타일 재정의 */
-  :root {
-    /* 텍스트 색상을 어두운 네이비 계열로 변경 */
-    color: #213547;
-    /* 배경색을 흰색으로 변경 */
-    background-color: #ffffff;
-  }
-  /* 라이트 모드에서 링크 호버 시 스타일 */
-  a:hover {
-    /* 호버 시 좀 더 밝은 파란 보라색으로 변경 */
-    color: #747bff;
-  }
-  /* 라이트 모드에서 버튼 스타일 */
-  button {
-    /* 버튼 배경색을 매우 밝은 회색으로 변경 */
-    background-color: #f9f9f9;
-  }
-}
+/* 다크 테마 전용이므로 prefers-color-scheme: light 오버라이드 제거
+   - 이 블록이 있으면 macOS 라이트 모드에서 배경이 흰색으로 바뀌어
+     모든 반투명 rgba 컴포넌트가 파스텔처럼 흐릿하게 보임 */
