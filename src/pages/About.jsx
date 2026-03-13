@@ -22,83 +22,68 @@ import imgPostman     from '../assets/postman.png';
 
 /**
  * 기술 스택 카테고리 데이터
- * 각 카테고리는 여러 기술 항목을 포함합니다.
+ * BACKEND_TECH_SPEC.md 1.기술 스택 요약 기준
  */
-const TECH_CATEGORIES = [
+const CATEGORIES = [
   {
     id: 'backend',
-    title: 'Back-End',
-    icon: '⚙️',
-    color: '#6ee7b7',    // 초록 계열
-    gradient: 'linear-gradient(135deg, rgba(16,185,129,0.45), rgba(5,150,105,0.3))',
-    border: 'rgba(16,185,129,0.7)',
+    label: 'Back-End',
+    dot: '#6ee7b7',
     techs: [
-      { name: 'Java 17',           img: imgJava,       desc: 'LTS 버전, Record·Pattern Matching 지원' },
-      { name: 'Spring Boot 4.0',   img: imgSpringBoot, desc: 'REST API · 의존성 주입 · 자동 설정' },
-      { name: 'Spring Security',   img: imgSpringBoot, desc: 'JWT 인증·인가, OAuth2 카카오 소셜 로그인' },
-      { name: 'JWT',               img: imgJwt,         desc: 'Access/Refresh Token 기반 인증 · HTTP-only 쿠키 전략' },
-      { name: 'Kakao Developers',  img: imgKakaoDev,    desc: '카카오 로그인 앱 등록 · Redirect URI · OAuth2 연동' },
+      { name: 'Java',           version: '17 LTS',       img: imgJava },
+      { name: 'Spring Boot',    version: '4.0.0',        img: imgSpringBoot },
+      { name: 'Spring Security',version: '7.x',          img: imgSpringBoot },
+      { name: 'Spring Data JPA',version: '7.x',          img: imgSpringBoot },
+      { name: 'JWT',            version: 'jjwt 0.12.5',  img: imgJwt },
+      { name: 'Kakao OAuth',    version: 'OAuth2',        img: imgKakaoDev },
+      { name: 'Gradle',         version: '9.x',          emoji: '🐘' },
     ],
   },
   {
     id: 'frontend',
-    title: 'Front-End',
-    icon: '🎨',
-    color: '#bfdbfe',    // 파랑 계열 (밝게)
-    gradient: 'linear-gradient(135deg, rgba(59,130,246,0.45), rgba(37,99,235,0.3))',
-    border: 'rgba(59,130,246,0.7)',
+    label: 'Front-End',
+    dot: '#93c5fd',
     techs: [
-      { name: 'React 19',          img: imgReact,      desc: 'SPA · Hooks · Context API · React Router' },
-      { name: 'JavaScript ES2024', img: imgJavaScript, desc: 'Vite 빌드 · 모듈 번들링 · HMR 개발 환경' },
-      { name: 'Axios',             img: imgAxios,      desc: 'HTTP 클라이언트 · 인증 헤더 · 인터셉터 기반 API 통신' },
+      { name: 'React',       version: '19',       img: imgReact },
+      { name: 'JavaScript',  version: 'ES2024',   img: imgJavaScript },
+      { name: 'Axios',       version: 'HTTP',     img: imgAxios },
     ],
   },
   {
     id: 'database',
-    title: 'Database',
-    icon: '🗄️',
-    color: '#fde68a',    // 노랑 계열 (밝게)
-    gradient: 'linear-gradient(135deg, rgba(245,158,11,0.45), rgba(217,119,6,0.3))',
-    border: 'rgba(245,158,11,0.7)',
+    label: 'Database',
+    dot: '#fcd34d',
     techs: [
-      { name: 'MySQL 8.0',         img: imgMySQL,      desc: 'InnoDB · 관계형 데이터 모델 · JPA/Hibernate' },
+      { name: 'MySQL',  version: '8.0',   img: imgMySQL },
     ],
   },
   {
     id: 'infra',
-    title: 'Infrastructure',
-    icon: '☁️',
-    color: '#fbcfe8',    // 분홍 계열 (밝게)
-    gradient: 'linear-gradient(135deg, rgba(236,72,153,0.45), rgba(219,39,119,0.3))',
-    border: 'rgba(236,72,153,0.7)',
+    label: 'Infrastructure',
+    dot: '#f9a8d4',
     techs: [
-      { name: 'AWS Lightsail',     img: imgAWS,        desc: 'VPS 인스턴스 · 고정 IP · 프로덕션 서버' },
-      { name: 'Docker',            img: imgDocker,     desc: '컨테이너 빌드·배포 · docker-compose 멀티 서비스' },
-      { name: 'Nginx',             img: imgNginx,      desc: '리버스 프록시 · 정적 파일 서빙 · SPA 라우팅 처리' },
-      { name: 'Amazon Linux 2023', img: imgAmazonLinux, desc: 'Lightsail 서버 OS · 컨테이너 실행 기반 호스팅 환경' },
-    ],
-  },
-  {
-    id: 'test',
-    title: 'Test Tools',
-    icon: '🧪',
-    color: '#fdba74',
-    gradient: 'linear-gradient(135deg, rgba(251,146,60,0.42), rgba(234,88,12,0.28))',
-    border: 'rgba(249,115,22,0.7)',
-    techs: [
-      { name: 'Postman', img: imgPostman, desc: 'API 기능 테스트 · 인증 토큰 검증 · 요청/응답 시나리오 점검' },
+      { name: 'Docker',          version: 'Container',    img: imgDocker },
+      { name: 'Nginx',           version: 'Proxy',        img: imgNginx },
+      { name: 'AWS Lightsail',   version: 'VPS',          img: imgAWS },
+      { name: 'Amazon Linux',    version: '2023',         img: imgAmazonLinux },
     ],
   },
   {
     id: 'devops',
-    title: 'DevOps / SCM',
-    icon: '🔄',
-    color: '#ddd6fe',    // 보라 계열 (밝게)
-    gradient: 'linear-gradient(135deg, rgba(139,92,246,0.45), rgba(109,40,217,0.3))',
-    border: 'rgba(139,92,246,0.7)',
+    label: 'DevOps / SCM',
+    dot: '#c4b5fd',
     techs: [
-      { name: 'GitHub Actions',    img: imgGitHub,     desc: 'push → 빌드 → Docker 이미지 → Lightsail 자동 배포' },
-      { name: 'Git / GitHub',      img: imgGit,        desc: '소스코드 버전 관리 · 브랜치 전략 · 코드 리뷰' },
+      { name: 'GitHub Actions', version: 'CI/CD',  img: imgGitHub },
+      { name: 'GHCR',           version: 'Registry', emoji: '📦' },
+      { name: 'Git',            version: 'SCM',    img: imgGit },
+    ],
+  },
+  {
+    id: 'test',
+    label: 'Test',
+    dot: '#fdba74',
+    techs: [
+      { name: 'Postman', version: 'API Test', img: imgPostman },
     ],
   },
 ];
@@ -107,201 +92,122 @@ const TECH_CATEGORIES = [
  * CI/CD 파이프라인 단계
  */
 const CICD_STEPS = [
-  { icon: '💻', label: 'git push',      sub: 'main 브랜치' },
-  { icon: '⚡', label: 'GitHub Actions', sub: '워크플로우 트리거' },
-  { icon: '🏗️', label: 'Docker Build',  sub: 'React + Nginx 이미지' },
-  { icon: '📦', label: 'GHCR Push',     sub: 'ghcr.io 이미지 등록' },
-  { icon: '🚀', label: 'Lightsail 배포', sub: 'docker compose up' },
+  { icon: '💻', label: 'git push' },
+  { icon: '⚡', label: 'Actions' },
+  { icon: '🏗️', label: 'Build' },
+  { icon: '📦', label: 'GHCR' },
+  { icon: '🚀', label: 'Deploy' },
 ];
 
 /**
- * 아키텍처 구성 요소
+ * TechTile — 아이콘 중심 기술 타일 컴포넌트
  */
-const ARCH_ITEMS = [
-  { layer: '브라우저', desc: 'HTTP :80', color: 'rgba(59,130,246,0.3)' },
-  { layer: 'Nginx',   desc: '리버스 프록시 · SPA 라우팅 · 정적 파일 서빙', color: 'rgba(16,185,129,0.3)' },
-  { layer: 'React',   desc: 'SPA · JWT 메모리 저장 · axios 인터셉터', color: 'rgba(139,92,246,0.3)' },
-  { layer: 'Spring Boot', desc: 'REST API :9080 · Spring Security · JPA', color: 'rgba(245,158,11,0.3)' },
-  { layer: 'Amazon Linux 2023', desc: 'Lightsail 호스트 OS · Docker 엔진 실행 환경', color: 'rgba(14,165,233,0.3)' },
-  { layer: 'MySQL',   desc: 'Docker 컨테이너 :3306 · prod-network 연결', color: 'rgba(236,72,153,0.3)' },
-];
-
-/**
- * TechCard 컴포넌트 — 개별 기술 카드
- */
-function TechCard({ tech }) {
-  const hasImage = Boolean(tech.img);
+function TechTile({ tech }) {
   return (
-    <div className="about-tech-card">
-      {hasImage ? (
-        <div className="about-tech-card-img-wrap">
-          <img src={tech.img} alt={tech.name} className="about-tech-card-img" />
-        </div>
-      ) : (
-        <div className="about-tech-card-icon-wrap" aria-label={tech.name}>
-          <span className="about-tech-card-icon">{tech.icon || '🔹'}</span>
-        </div>
-      )}
-      <div className="about-tech-card-info">
-        <div className="about-tech-card-name">{tech.name}</div>
-        <div className="about-tech-card-desc">{tech.desc}</div>
+    <div className="about-tile">
+      {/* 로고 영역 */}
+      <div className="about-tile-logo-wrap">
+        {tech.img ? (
+          <img src={tech.img} alt={tech.name} className="about-tile-logo" />
+        ) : (
+          <span className="about-tile-emoji">{tech.emoji}</span>
+        )}
       </div>
+
+      {/* 이름 */}
+      <span className="about-tile-name">{tech.name}</span>
+
+      {/* 버전 배지 */}
+      <span className="about-tile-version">{tech.version}</span>
     </div>
   );
 }
 
 /**
- * About 페이지 — 프로젝트 기술 스펙 비주얼 소개
+ * About 페이지 — 기술 스택 아이콘 그리드 뷰
  */
 function About() {
   return (
     <>
       <GNB />
       <div className="about-container">
-        <div className="about-bg-orb about-bg-orb--one" />
-        <div className="about-bg-orb about-bg-orb--two" />
-        <div className="about-bg-orb about-bg-orb--three" />
+
+        {/* 배경 장식 오브 */}
+        <div className="about-orb about-orb--a" />
+        <div className="about-orb about-orb--b" />
 
         {/* ── 히어로 ── */}
         <header className="about-hero">
           <div className="about-hero-badge">Tech Stack</div>
           <h1 className="about-hero-title">Project Specification</h1>
           <p className="about-hero-sub">
-            풀스택 소셜 플랫폼 · Java 17 + Spring Boot · React · AWS Lightsail · Docker · CI/CD
+            Java 17 · Spring Boot 4 · React 19 · MySQL 8 · Docker · AWS Lightsail
           </p>
-          <div className="about-hero-tags">
-            <span className="about-hero-tag">Java 17</span>
-            <span className="about-hero-tag">Spring Boot 4</span>
-            <span className="about-hero-tag">JWT</span>
-            <span className="about-hero-tag">Kakao Developers</span>
-            <span className="about-hero-tag">React 19</span>
-            <span className="about-hero-tag">Axios</span>
-            <span className="about-hero-tag">MySQL 8</span>
-            <span className="about-hero-tag">Nginx</span>
-            <span className="about-hero-tag">Amazon Linux 2023</span>
-            <span className="about-hero-tag">Docker</span>
-            <span className="about-hero-tag">AWS</span>
-            <span className="about-hero-tag">Postman</span>
-            <span className="about-hero-tag">GitHub Actions</span>
-          </div>
         </header>
 
-        {/* ── 기술 스택 카테고리 ── */}
-        {TECH_CATEGORIES.map((cat) => (
-          <section
-            key={cat.id}
-            className="about-cat-section"
-            style={{ background: cat.gradient, borderColor: cat.border }}
-          >
-            {/* 카테고리 헤더 */}
-            <div className="about-cat-header">
-              <span className="about-cat-icon">{cat.icon}</span>
-              <h2 className="about-cat-title" style={{ color: cat.color }}>{cat.title}</h2>
-            </div>
-
-            {/* 기술 카드 목록 */}
-            <div className="about-tech-list">
-              {cat.techs.map((tech) => (
-                <TechCard key={tech.name} tech={tech} />
-              ))}
-            </div>
-          </section>
-        ))}
-
-        {/* ── 시스템 아키텍처 ── */}
-        <section className="about-section">
-          <h2 className="about-section-title">🏛️ 시스템 아키텍처</h2>
-          <p className="about-section-sub">요청이 브라우저에서 DB까지 흐르는 구조</p>
-          <div className="about-arch">
-            {ARCH_ITEMS.map((item, idx) => (
-              <div key={idx} className="about-arch-row">
-                <div
-                  className="about-arch-layer"
-                  style={{ background: item.color, borderColor: item.color.replace('0.3', '0.5') }}
-                >
-                  <span className="about-arch-layer-name">{item.layer}</span>
-                  <span className="about-arch-layer-desc">{item.desc}</span>
-                </div>
-                {idx < ARCH_ITEMS.length - 1 && (
-                  <div className="about-arch-arrow">↓</div>
-                )}
+        {/* ── 기술 스택 아이콘 그리드 ── */}
+        <section className="about-stack-section">
+          {CATEGORIES.map((cat) => (
+            <div key={cat.id} className="about-cat">
+              {/* 카테고리 헤더 */}
+              <div className="about-cat-header">
+                <span className="about-cat-dot" style={{ background: cat.dot }} />
+                <span className="about-cat-label">{cat.label}</span>
               </div>
-            ))}
-          </div>
+
+              {/* 타일 그리드 */}
+              <div className="about-tile-grid">
+                {cat.techs.map((tech) => (
+                  <TechTile key={tech.name} tech={tech} />
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* ── CI/CD 파이프라인 ── */}
-        <section className="about-section">
-          <h2 className="about-section-title">🚀 CI/CD 파이프라인</h2>
-          <p className="about-section-sub">GitHub Actions 기반 자동 빌드·배포 흐름</p>
-          <div className="about-cicd">
+        <section className="about-cicd-section">
+          <div className="about-section-heading">CI/CD Pipeline</div>
+          <div className="about-cicd-flow">
             {CICD_STEPS.map((step, idx) => (
-              <div key={idx} className="about-cicd-item">
-                <div className="about-cicd-icon">{step.icon}</div>
-                <div className="about-cicd-label">{step.label}</div>
-                <div className="about-cicd-sub">{step.sub}</div>
+              <div key={idx} className="about-cicd-flow-item">
+                <div className="about-cicd-step">
+                  <span className="about-cicd-step-icon">{step.icon}</span>
+                  <span className="about-cicd-step-label">{step.label}</span>
+                </div>
                 {idx < CICD_STEPS.length - 1 && (
-                  <div className="about-cicd-arrow">→</div>
+                  <span className="about-cicd-arrow">›</span>
                 )}
               </div>
             ))}
           </div>
 
-          {/* Docker 네트워크 구성 */}
+          {/* Docker 컨테이너 구성 */}
           <div className="about-docker-net">
-            <div className="about-docker-net-title">
-              <img src={imgDocker} alt="Docker" className="about-docker-net-logo" />
-              Docker prod-network 구성
-            </div>
-            <div className="about-docker-net-grid">
-              <div className="about-docker-net-box about-docker-net-box--nginx">
-                <div className="about-docker-net-name">prod-frontend</div>
-                <div className="about-docker-net-tech">Nginx + React</div>
-                <div className="about-docker-net-port">:80</div>
+            <span className="about-docker-net-label">🐳 Docker prod-network</span>
+            <div className="about-docker-boxes">
+              <div className="about-docker-box about-docker-box--fe">
+                <span className="about-docker-box-name">prod-frontend</span>
+                <span className="about-docker-box-stack">Nginx + React</span>
+                <span className="about-docker-box-port">:80</span>
               </div>
-              <div className="about-docker-net-conn">←→</div>
-              <div className="about-docker-net-box about-docker-net-box--spring">
-                <div className="about-docker-net-name">prod-backend</div>
-                <div className="about-docker-net-tech">Spring Boot</div>
-                <div className="about-docker-net-port">:9080</div>
+              <span className="about-docker-conn">⇄</span>
+              <div className="about-docker-box about-docker-box--be">
+                <span className="about-docker-box-name">prod-backend</span>
+                <span className="about-docker-box-stack">Spring Boot</span>
+                <span className="about-docker-box-port">:9080</span>
               </div>
-              <div className="about-docker-net-conn">←→</div>
-              <div className="about-docker-net-box about-docker-net-box--db">
-                <div className="about-docker-net-name">mysql</div>
-                <div className="about-docker-net-tech">MySQL 8.0</div>
-                <div className="about-docker-net-port">:3306</div>
+              <span className="about-docker-conn">⇄</span>
+              <div className="about-docker-box about-docker-box--db">
+                <span className="about-docker-box-name">mysql</span>
+                <span className="about-docker-box-stack">MySQL 8.0</span>
+                <span className="about-docker-box-port">:3306</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── 주요 기능 ── */}
-        <section className="about-section">
-          <h2 className="about-section-title">✨ 구현 기능</h2>
-          <p className="about-section-sub">현재 서비스에서 제공하는 기능 목록</p>
-          <div className="about-features">
-            {[
-              { icon: '🔐', title: '인증',       items: ['이메일/비번 로그인', '카카오 소셜 로그인', 'JWT Access + Refresh Token', 'HTTP-only 쿠키 보안'] },
-              { icon: '👤', title: '프로필',     items: ['프로필 이미지 업로드', '소개글 수정', '팔로우/팔로워', '프로필 조회'] },
-              { icon: '📝', title: '게시글',     items: ['텍스트 + 다중 이미지', '공개 범위 설정', '피드 목록 조회', '게시글 상세/삭제'] },
-              { icon: '🔧', title: '인프라',     items: ['Docker 컨테이너화', 'Nginx 리버스 프록시', 'GitHub Actions CI/CD', 'AWS Lightsail 배포'] },
-            ].map((feat) => (
-              <div key={feat.title} className="about-feature-card">
-                <div className="about-feature-card-header">
-                  <span className="about-feature-icon">{feat.icon}</span>
-                  <span className="about-feature-title">{feat.title}</span>
-                </div>
-                <ul className="about-feature-list">
-                  {feat.items.map((item) => (
-                    <li key={item} className="about-feature-item">{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── 하단 링크 ── */}
+        {/* ── 하단 네비게이션 ── */}
         <div className="about-footer-nav">
           <Link to="/" className="about-back-link">← 홈으로</Link>
           <Link to="/posts" className="about-posts-link">게시글 보기 →</Link>

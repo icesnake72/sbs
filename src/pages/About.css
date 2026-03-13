@@ -1,514 +1,360 @@
 /* ==========================================
-   About — 프로젝트 기술 스펙 페이지
-   다크 테마 + 글래스모피즘 + 컬러 카테고리
+   About — 기술 스택 아이콘 그리드 페이지
+   모던 다크 테마 + 아이콘 타일 중심
    ========================================== */
 
 /* ── 메인 컨테이너 ── */
 .about-container {
   position: relative;
   overflow: hidden;
-  max-width: 920px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 100px 20px 80px;
+  padding: 96px 20px 80px;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
-.about-bg-orb {
+/* ── 배경 장식 오브 ── */
+.about-orb {
   position: absolute;
-  border-radius: 999px;
-  filter: blur(6px);
+  border-radius: 50%;
   pointer-events: none;
   z-index: 0;
 }
 
-.about-bg-orb--one {
-  width: 320px;
-  height: 320px;
-  top: 38px;
-  left: -140px;
-  background: radial-gradient(circle, rgba(59,130,246,0.26) 0%, rgba(59,130,246,0) 68%);
+.about-orb--a {
+  width: 400px;
+  height: 400px;
+  top: 0;
+  left: -160px;
+  background: radial-gradient(circle, rgba(102,126,234,0.18) 0%, transparent 70%);
 }
 
-.about-bg-orb--two {
-  width: 360px;
-  height: 360px;
-  top: 320px;
-  right: -180px;
-  background: radial-gradient(circle, rgba(236,72,153,0.24) 0%, rgba(236,72,153,0) 68%);
+.about-orb--b {
+  width: 340px;
+  height: 340px;
+  bottom: 120px;
+  right: -140px;
+  background: radial-gradient(circle, rgba(236,72,153,0.15) 0%, transparent 70%);
 }
 
-.about-bg-orb--three {
-  width: 280px;
-  height: 280px;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0) 70%);
-}
-
+/* z-index 통일 */
 .about-hero,
-.about-cat-section,
-.about-section,
+.about-stack-section,
+.about-cicd-section,
 .about-footer-nav {
   position: relative;
   z-index: 1;
 }
 
 /* ══════════════════════════════════════
-   히어로 섹션
+   히어로
    ══════════════════════════════════════ */
 .about-hero {
   text-align: center;
-  background:
-    linear-gradient(130deg, rgba(102,126,234,0.52) 0%, rgba(118,75,162,0.5) 52%, rgba(14,165,233,0.36) 100%);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(102,126,234,0.65);
+  background: linear-gradient(135deg,
+    rgba(102,126,234,0.55) 0%,
+    rgba(118,75,162,0.52) 55%,
+    rgba(14,165,233,0.38) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(102,126,234,0.6);
   border-radius: 20px;
-  padding: 2.5rem 2rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 18px 40px rgba(14, 18, 38, 0.32);
+  padding: 2.2rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
 }
 
-/* "Tech Stack" 작은 배지 */
+/* "Tech Stack" 배지 */
 .about-hero-badge {
   display: inline-block;
-  background: rgba(102,126,234,0.25);
-  border: 1px solid rgba(102,126,234,0.5);
+  background: rgba(102,126,234,0.28);
+  border: 1px solid rgba(102,126,234,0.55);
   border-radius: 999px;
-  padding: 4px 14px;
-  font-size: 0.72rem;
+  padding: 3px 14px;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #a5b4fc;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.7rem;
 }
 
 .about-hero-title {
-  margin: 0 0 0.6rem;
-  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
   font-weight: 800;
   color: white;
   letter-spacing: -0.03em;
 }
 
 .about-hero-sub {
-  margin: 0 0 1.4rem;
-  color: rgba(255,255,255,0.85);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-/* 기술 태그 */
-.about-hero-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
-.about-hero-tag {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 999px;
-  padding: 5px 13px;
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.75);
-  transition: all 0.2s;
-}
-
-.about-hero-tag:hover {
-  background: rgba(102,126,234,0.25);
-  border-color: rgba(102,126,234,0.5);
-  color: white;
+  margin: 0;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
 /* ══════════════════════════════════════
-   기술 카테고리 섹션
+   기술 스택 섹션 (카테고리별 타일 그리드)
    ══════════════════════════════════════ */
-.about-cat-section {
-  border: 1px solid;
-  border-radius: 16px;
-  padding: 1.4rem 1.6rem;
-  margin-bottom: 1.2rem;
+.about-stack-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-bottom: 2rem;
+}
+
+/* ── 카테고리 블록 ── */
+.about-cat {
+  background: rgba(22,22,30,0.75);
   backdrop-filter: blur(10px);
-  transition: transform 0.22s, box-shadow 0.22s;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 1.2rem 1.4rem;
 }
 
-.about-cat-section:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
-}
-
-/* 카테고리 제목 행 */
+/* 카테고리 헤더 (점 + 이름) */
 .about-cat-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 1.1rem;
+  gap: 8px;
+  margin-bottom: 1rem;
 }
 
-.about-cat-icon {
-  font-size: 1.3rem;
-  line-height: 1;
+.about-cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.about-cat-title {
-  margin: 0;
-  font-size: 1rem;
+.about-cat-label {
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
 }
 
-/* 기술 카드 목록 (가로 스크롤 없이 wrap) */
-.about-tech-list {
+/* ── 타일 그리드 ── */
+.about-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 10px;
+}
+
+/* ── 개별 타일 ── */
+.about-tile {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-/* ── 개별 기술 카드 ── */
-.about-tech-card {
-  display: flex;
   align-items: center;
-  gap: 14px;
-  background: rgba(0,0,0,0.46);
-  border: 1px solid rgba(255,255,255,0.2);
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1rem 0.6rem 0.85rem;
+  cursor: default;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.about-tile:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+/* 로고 래퍼 — 흰 배경 정사각형 */
+.about-tile-logo-wrap {
+  width: 56px;
+  height: 56px;
+  background: rgba(255,255,255,0.94);
   border-radius: 12px;
-  padding: 12px 14px;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
-}
-
-.about-tech-card:hover {
-  background: rgba(0,0,0,0.62);
-  border-color: rgba(255,255,255,0.35);
-  transform: translateY(-1px);
-}
-
-/* 로고 이미지 래퍼 */
-.about-tech-card-img-wrap {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.92); /* 흰 배경으로 로고 선명하게 */
-  border-radius: 10px;
-  padding: 6px;
+  padding: 8px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-.about-tech-card-img {
+.about-tile-logo {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* filter 제거 — 흰 배경 위에서 원본 색상 그대로 표시 */
 }
 
-.about-tech-card-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
-  border: 1px solid rgba(255,255,255,0.28);
-}
-
-.about-tech-card-icon {
-  font-size: 1.35rem;
+/* 이모지 대체 아이콘 */
+.about-tile-emoji {
+  font-size: 1.8rem;
   line-height: 1;
 }
 
-.about-tech-card-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.about-tech-card-name {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 3px;
-}
-
-.about-tech-card-desc {
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.4;
-}
-
-/* ══════════════════════════════════════
-   공통 섹션
-   ══════════════════════════════════════ */
-.about-section {
-  background: rgba(26,26,26,0.75);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.2rem;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.24);
-}
-
-.about-section-title {
-  margin: 0 0 0.3rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: white;
-}
-
-.about-section-sub {
-  margin: 0 0 1.2rem;
-  color: rgba(255,255,255,0.75);
-  font-size: 0.82rem;
-}
-
-/* ══════════════════════════════════════
-   시스템 아키텍처
-   ══════════════════════════════════════ */
-.about-arch {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-.about-arch-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.about-arch-layer {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid;
-  border-radius: 10px;
-  padding: 12px 16px;
-  gap: 12px;
-}
-
-.about-arch-layer-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: white;
-  white-space: nowrap;
-  min-width: 90px;
-}
-
-.about-arch-layer-desc {
+/* 기술명 */
+.about-tile-name {
   font-size: 0.78rem;
+  font-weight: 600;
   color: rgba(255,255,255,0.9);
-  text-align: right;
-  flex: 1;
+  text-align: center;
+  line-height: 1.3;
 }
 
-.about-arch-arrow {
-  font-size: 1.2rem;
-  color: rgba(255,255,255,0.2);
-  padding: 4px 0;
+/* 버전 배지 */
+.about-tile-version {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 2px 8px;
   line-height: 1;
 }
 
 /* ══════════════════════════════════════
-   CI/CD 파이프라인
+   CI/CD 파이프라인 섹션
    ══════════════════════════════════════ */
-.about-cicd {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 0;
-  margin-bottom: 1.4rem;
+.about-cicd-section {
+  background: rgba(22,22,30,0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 1.4rem;
+  margin-bottom: 2rem;
 }
 
-.about-cicd-item {
+/* 섹션 제목 */
+.about-section-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 1.1rem;
+}
+
+/* CI/CD 흐름 */
+.about-cicd-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 1.2rem;
+}
+
+.about-cicd-flow-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.about-cicd-step {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  position: relative;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+  min-width: 64px;
 }
 
-.about-cicd-icon {
-  width: 50px;
-  height: 50px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
+.about-cicd-step-icon {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
-.about-cicd-label {
-  font-size: 0.75rem;
+.about-cicd-step-label {
+  font-size: 0.68rem;
   font-weight: 600;
-  color: white;
-  text-align: center;
-}
-
-.about-cicd-sub {
-  font-size: 0.65rem;
   color: rgba(255,255,255,0.8);
   text-align: center;
-  max-width: 70px;
-  line-height: 1.3;
 }
 
 .about-cicd-arrow {
-  align-self: center;
   font-size: 1.1rem;
-  color: rgba(102,126,234,0.6);
-  padding: 0 6px;
-  margin-bottom: 28px; /* label+sub 높이 보정 */
+  color: rgba(102,126,234,0.5);
+  font-weight: 300;
+  flex-shrink: 0;
 }
 
-/* ── Docker 네트워크 박스 ── */
+/* ── Docker 네트워크 ── */
 .about-docker-net {
-  background: rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.07);
   border-radius: 12px;
-  padding: 1rem 1.2rem;
+  padding: 1rem 1.1rem;
 }
 
-.about-docker-net-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
+.about-docker-net-label {
+  display: block;
+  font-size: 0.76rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.95);
-  margin-bottom: 1rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.9rem;
 }
 
-.about-docker-net-logo {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.about-docker-net-grid {
+.about-docker-boxes {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.about-docker-net-box {
+.about-docker-box {
   flex: 1;
-  min-width: 100px;
-  text-align: center;
-  border-radius: 10px;
-  padding: 12px 8px;
-  border: 1px solid;
-}
-
-.about-docker-net-box--nginx  { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); }
-.about-docker-net-box--spring { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.35); }
-.about-docker-net-box--db     { background: rgba(59,130,246,0.12);  border-color: rgba(59,130,246,0.35); }
-
-.about-docker-net-name {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 3px;
-}
-
-.about-docker-net-tech {
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 4px;
-}
-
-.about-docker-net-port {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  background: rgba(255,255,255,0.1);
-  border-radius: 4px;
-  padding: 1px 6px;
-  color: rgba(255,255,255,0.7);
-  font-family: monospace;
-}
-
-.about-docker-net-conn {
-  color: rgba(255,255,255,0.25);
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-/* ══════════════════════════════════════
-   구현 기능 카드
-   ══════════════════════════════════════ */
-.about-features {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.about-feature-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 12px;
-  padding: 1rem;
-  transition: border-color 0.2s, transform 0.2s, background 0.2s;
-}
-
-.about-feature-card:hover {
-  border-color: rgba(102,126,234,0.35);
-  background: rgba(255,255,255,0.065);
-  transform: translateY(-2px);
-}
-
-.about-feature-card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.about-feature-icon {
-  font-size: 1.2rem;
-}
-
-.about-feature-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: white;
-}
-
-.about-feature-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  min-width: 90px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  gap: 3px;
+  border-radius: 10px;
+  border: 1px solid;
+  padding: 0.7rem 0.5rem;
 }
 
-.about-feature-item {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.85);
-  padding-left: 12px;
-  position: relative;
-  line-height: 1.4;
+/* 컨테이너 색상 */
+.about-docker-box--fe {
+  background: rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.35);
 }
 
-.about-feature-item::before {
-  content: '·';
-  position: absolute;
-  left: 0;
-  color: rgba(102,126,234,0.7);
+.about-docker-box--be {
+  background: rgba(245,158,11,0.1);
+  border-color: rgba(245,158,11,0.35);
+}
+
+.about-docker-box--db {
+  background: rgba(59,130,246,0.1);
+  border-color: rgba(59,130,246,0.35);
+}
+
+.about-docker-box-name {
+  font-size: 0.72rem;
   font-weight: 700;
+  color: white;
+}
+
+.about-docker-box-stack {
+  font-size: 0.66rem;
+  color: rgba(255,255,255,0.65);
+}
+
+.about-docker-box-port {
+  font-size: 0.66rem;
+  font-family: monospace;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+.about-docker-conn {
+  color: rgba(255,255,255,0.2);
+  font-size: 1rem;
+  flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════
@@ -518,17 +364,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
 }
 
 .about-back-link {
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.4);
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   transition: color 0.2s;
 }
 
-.about-back-link:hover { color: white; }
+.about-back-link:hover {
+  color: white;
+}
 
 .about-posts-link {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -536,7 +383,7 @@
   text-decoration: none;
   padding: 0.55rem 1.3rem;
   border-radius: 8px;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -558,70 +405,26 @@
     padding: 1.8rem 1.2rem;
   }
 
-  .about-bg-orb--one {
-    width: 200px;
-    height: 200px;
-    left: -120px;
+  .about-tile-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
   }
 
-  .about-bg-orb--two {
-    width: 220px;
-    height: 220px;
-    right: -130px;
+  .about-tile-logo-wrap {
+    width: 48px;
+    height: 48px;
   }
 
-  .about-bg-orb--three {
-    width: 180px;
-    height: 180px;
-  }
-
-  .about-hero-title {
-    font-size: 1.6rem;
-  }
-
-  .about-section,
-  .about-cat-section {
-    padding: 1.2rem;
-  }
-
-  /* 아키텍처: 설명 텍스트 왼쪽 정렬 */
-  .about-arch-layer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .about-arch-layer-desc {
-    text-align: left;
-  }
-
-  /* CI/CD: 아이콘만 */
-  .about-cicd {
+  .about-cicd-flow {
     justify-content: center;
-    gap: 4px;
   }
 
-  .about-cicd-sub {
-    display: none;
-  }
-
-  .about-cicd-arrow {
-    margin-bottom: 18px;
-    padding: 0 2px;
-  }
-
-  /* 기능 카드: 1열 */
-  .about-features {
-    grid-template-columns: 1fr;
-  }
-
-  /* Docker 네트워크 박스: 세로 */
-  .about-docker-net-grid {
+  .about-docker-boxes {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .about-docker-net-conn {
+  .about-docker-conn {
     transform: rotate(90deg);
     align-self: center;
   }
@@ -638,35 +441,37 @@
 }
 
 @media (max-width: 480px) {
-  .about-hero {
-    padding: 1.4rem 1rem;
+  .about-tile-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
   }
 
-  .about-tech-card-img-wrap {
-    width: 40px;
-    height: 40px;
+  .about-tile {
+    padding: 0.85rem 0.4rem 0.7rem;
   }
 
-  .about-tech-card-icon-wrap {
-    width: 40px;
-    height: 40px;
-  }
-
-  .about-tech-card-icon {
-    font-size: 1.1rem;
-  }
-
-  .about-tech-card-name {
-    font-size: 0.85rem;
-  }
-
-  .about-cicd-icon {
+  .about-tile-logo-wrap {
     width: 42px;
     height: 42px;
-    font-size: 1.1rem;
+    border-radius: 10px;
+    padding: 6px;
   }
 
-  .about-cicd-label {
-    font-size: 0.68rem;
+  .about-tile-name {
+    font-size: 0.7rem;
+  }
+
+  .about-tile-version {
+    font-size: 0.6rem;
+    padding: 1px 6px;
+  }
+
+  .about-cicd-step {
+    min-width: 52px;
+    padding: 0.45rem 0.5rem;
+  }
+
+  .about-cicd-step-label {
+    font-size: 0.6rem;
   }
 }
