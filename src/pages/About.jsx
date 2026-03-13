@@ -36,7 +36,6 @@ const CATEGORIES = [
       { name: 'Spring Data JPA',version: '7.x',          img: imgSpringBoot },
       { name: 'JWT',            version: 'jjwt 0.12.5',  img: imgJwt },
       { name: 'Kakao OAuth',    version: 'OAuth2',        img: imgKakaoDev },
-      { name: 'Gradle',         version: '9.x',          emoji: '🐘' },
     ],
   },
   {
