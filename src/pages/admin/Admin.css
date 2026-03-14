@@ -316,3 +316,93 @@
   }
 }
 
+/* ── 개선된 페이지네이션 ── */
+.admin-page-btn {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.7);
+  border-radius: 7px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+/* 활성(현재) 페이지 버튼 스타일 */
+.admin-page-btn.active {
+  background: rgba(102,126,234,0.45);
+  border-color: rgba(102,126,234,0.7);
+  color: white;
+  font-weight: 700;
+}
+/* 비활성 페이지 버튼 호버 스타일 */
+.admin-page-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.08);
+}
+/* 페이지 줄임표(...) 스타일 */
+.admin-page-ellipsis {
+  color: rgba(255,255,255,0.3);
+  padding: 0 4px;
+  font-size: 0.85rem;
+}
+/* 현재페이지/전체페이지 표시 스타일 */
+.admin-page-info {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+/* ── 삭제된 행 강조 (투명도 낮춤) ── */
+.admin-table tr.deleted-row td {
+  opacity: 0.55;
+}
+
+/* ── 메모/사유 입력 textarea ── */
+.admin-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  color: white;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 64px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.admin-textarea:focus {
+  outline: none;
+  border-color: rgba(102,126,234,0.5);
+}
+.admin-textarea::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+/* ── SUPER USER 배지 스타일 ── */
+.admin-super-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251,191,36,0.15);
+  border: 1px solid rgba(251,191,36,0.4);
+  margin-left: 6px;
+}
+
+/* ── 통계 카드 아이콘 ── */
+.admin-stat-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ── 상세 화면 이미지 카운트 표시 ── */
+.admin-image-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+}
