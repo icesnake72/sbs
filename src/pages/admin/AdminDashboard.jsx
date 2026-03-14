@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis,
-  CartesianGrid, Tooltip, Legend,
+  CartesianGrid, Tooltip,
 } from 'recharts';
 
 import { useAuth } from '../../hooks/useAuth';
@@ -26,13 +26,13 @@ const STAT_DEFS = [
   { key: 'weeklyNewPosts',label: '주간 게시글', icon: '📊' },
 ];
 
-// ── 차트 라인 색상 정의 ──
-const CHART_COLORS = {
-  newUsers:     '#22c55e',  // 초록: 가입자
-  newPosts:     '#3b82f6',  // 파랑: 게시글
-  newComments:  '#a78bfa',  // 보라: 댓글
-  totalViews:   '#f59e0b',  // 노랑: 조회수
-};
+// ── 차트 시리즈 정의 (dataKey, 표시명, 색상, 그라데이션 ID) ──
+const CHART_SERIES = [
+  { dataKey: 'newUsers',    name: '가입자', color: '#22c55e', gradId: 'gradUsers' },
+  { dataKey: 'newPosts',    name: '게시글', color: '#3b82f6', gradId: 'gradPosts' },
+  { dataKey: 'newComments', name: '댓글',  color: '#a78bfa', gradId: 'gradComments' },
+  { dataKey: 'totalViews',  name: '조회수', color: '#f59e0b', gradId: 'gradViews' },
+];
 
 // ── 차트 기간 옵션 ──
 const PERIOD_OPTIONS = [
@@ -78,6 +78,16 @@ function AdminDashboard() {
   const [chartDays, setChartDays] = useState(14);
   const [chartLoading, setChartLoading] = useState(false);
   const [chartError, setChartError] = useState('');
+
+  // ── 차트 시리즈 표시/숨김 (기본: 모두 표시) ──
+  const [visibleSeries, setVisibleSeries] = useState(
+    () => Object.fromEntries(CHART_SERIES.map((s) => [s.dataKey, true]))
+  );
+
+  // 시리즈 토글 핸들러
+  const toggleSeries = (dataKey) => {
+    setVisibleSeries((prev) => ({ ...prev, [dataKey]: !prev[dataKey] }));
+  };
 
   // ── 통계 카드 + 최근 데이터 로드 ──
   useEffect(() => {
@@ -174,6 +184,41 @@ function AdminDashboard() {
           </div>
         </div>
 
+        {/* ── 시리즈 표시/숨김 토글 버튼 ── */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+          {CHART_SERIES.map(({ dataKey, name, color }) => {
+            const active = visibleSeries[dataKey];
+            return (
+              <button
+                key={dataKey}
+                type="button"
+                onClick={() => toggleSeries(dataKey)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '4px 10px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  border: `1px solid ${active ? color : 'rgba(255,255,255,0.15)'}`,
+                  borderRadius: '999px',
+                  background: active ? `${color}22` : 'rgba(255,255,255,0.04)',
+                  color: active ? color : 'rgba(255,255,255,0.35)',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {/* 색상 점 표시 */}
+                <span style={{
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: active ? color : 'rgba(255,255,255,0.2)',
+                }} />
+                {name}
+              </button>
+            );
+          })}
+        </div>
+
         {/* 차트 에러 메시지 */}
         {chartError && (
           <p style={{
@@ -199,23 +244,13 @@ function AdminDashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={dailyStats} margin={{ top: 8, right: 12, left: -10, bottom: 0 }}>
                 <defs>
-                  {/* 그라데이션 정의 */}
-                  <linearGradient id="gradUsers" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS.newUsers} stopOpacity={0.3} />
-                    <stop offset="95%" stopColor={CHART_COLORS.newUsers} stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="gradPosts" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS.newPosts} stopOpacity={0.3} />
-                    <stop offset="95%" stopColor={CHART_COLORS.newPosts} stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="gradComments" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS.newComments} stopOpacity={0.3} />
-                    <stop offset="95%" stopColor={CHART_COLORS.newComments} stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="gradViews" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS.totalViews} stopOpacity={0.3} />
-                    <stop offset="95%" stopColor={CHART_COLORS.totalViews} stopOpacity={0} />
-                  </linearGradient>
+                  {/* 각 시리즈별 그라데이션 정의 */}
+                  {CHART_SERIES.map(({ gradId, color }) => (
+                    <linearGradient key={gradId} id={gradId} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={color} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={color} stopOpacity={0} />
+                    </linearGradient>
+                  ))}
                 </defs>
 
                 {/* 그리드 */}
@@ -236,61 +271,23 @@ function AdminDashboard() {
                   tickLine={false}
                 />
 
-                {/* 커스텀 Tooltip */}
+                {/* 커스텀 Tooltip (숨긴 시리즈는 표시하지 않음) */}
                 <Tooltip content={<ChartTooltip />} />
 
-                {/* 범례 */}
-                <Legend
-                  wrapperStyle={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}
-                />
-
-                {/* 데이터 영역: 가입자 */}
-                <Area
-                  type="monotone"
-                  dataKey="newUsers"
-                  name="가입자"
-                  stroke={CHART_COLORS.newUsers}
-                  fill="url(#gradUsers)"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4 }}
-                />
-
-                {/* 데이터 영역: 게시글 */}
-                <Area
-                  type="monotone"
-                  dataKey="newPosts"
-                  name="게시글"
-                  stroke={CHART_COLORS.newPosts}
-                  fill="url(#gradPosts)"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4 }}
-                />
-
-                {/* 데이터 영역: 댓글 */}
-                <Area
-                  type="monotone"
-                  dataKey="newComments"
-                  name="댓글"
-                  stroke={CHART_COLORS.newComments}
-                  fill="url(#gradComments)"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4 }}
-                />
-
-                {/* 데이터 영역: 조회수 */}
-                <Area
-                  type="monotone"
-                  dataKey="totalViews"
-                  name="조회수"
-                  stroke={CHART_COLORS.totalViews}
-                  fill="url(#gradViews)"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4 }}
-                />
+                {/* 표시 중인 시리즈만 Area로 렌더링 */}
+                {CHART_SERIES.filter((s) => visibleSeries[s.dataKey]).map(({ dataKey, name, color, gradId }) => (
+                  <Area
+                    key={dataKey}
+                    type="monotone"
+                    dataKey={dataKey}
+                    name={name}
+                    stroke={color}
+                    fill={`url(#${gradId})`}
+                    strokeWidth={2}
+                    dot={false}
+                    activeDot={{ r: 4 }}
+                  />
+                ))}
               </AreaChart>
             </ResponsiveContainer>
           </div>
