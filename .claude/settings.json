@@ -4,7 +4,8 @@
       "Bash(git add src/pages/About.jsx src/pages/About.css)",
       "Bash(git push origin main)",
       "Bash(ls /Users/eunbumkim/Documents/practice/react/sbs/src/assets/*.png /Users/eunbumkim/Documents/practice/react/sbs/src/assets/*.webp)",
-      "Bash(xargs -I{} basename {})"
+      "Bash(xargs -I{} basename {})",
+      "Bash(git add src/components/AdminRoute.jsx src/pages/admin/Admin.css src/pages/admin/AdminComments.jsx src/pages/admin/AdminDashboard.jsx src/pages/admin/AdminPostDetail.jsx src/pages/admin/AdminPosts.jsx src/pages/admin/AdminUserDetail.jsx src/pages/admin/AdminUsers.jsx src/pages/admin/adminUtils.js src/pages/admin/adminUtils.jsx)"
     ]
   }
 }

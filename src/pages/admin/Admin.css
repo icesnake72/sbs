@@ -6,6 +6,13 @@
   grid-template-columns: 240px 1fr;
   gap: 14px;
   box-sizing: border-box;
+  width: 100%;              /* 부모 폭에 맞춤 */
+}
+
+/* ── 본문 영역: 그리드 열 경계를 넘지 않도록 제한 ── */
+.admin-content {
+  min-width: 0;             /* CSS Grid 자식이 1fr 열 밖으로 넘치지 않도록 */
+  overflow-x: auto;         /* 내부 테이블이 넓을 경우 본문 내에서만 가로 스크롤 */
 }
 
 .admin-sidebar {
@@ -188,7 +195,7 @@
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 860px;
+  min-width: 600px;         /* 테이블 최소 폭을 줄여 가로 스크롤 최소화 */
 }
 
 .admin-table th,
