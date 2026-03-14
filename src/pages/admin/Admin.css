@@ -12,7 +12,7 @@
 /* ── 본문 영역: 그리드 열 경계를 넘지 않도록 제한 ── */
 .admin-content {
   min-width: 0;             /* CSS Grid 자식이 1fr 열 밖으로 넘치지 않도록 */
-  overflow-x: auto;         /* 내부 테이블이 넓을 경우 본문 내에서만 가로 스크롤 */
+  overflow: hidden;         /* 본문 컨테이너 자체에는 스크롤 없음 */
 }
 
 .admin-sidebar {
@@ -55,6 +55,8 @@
 .admin-page {
   display: grid;
   gap: 12px;
+  min-width: 0;              /* 내부 콘텐츠가 부모 폭을 초과하지 않도록 */
+  max-width: 100%;           /* 부모 폭에 맞춤 */
 }
 
 .admin-page-header {
@@ -86,7 +88,9 @@
 }
 
 .admin-input {
-  min-width: 200px;
+  min-width: 120px;          /* 최소 폭을 줄여 좁은 화면에서도 맞춤 */
+  flex: 1 1 200px;           /* 여유 공간에 따라 유연하게 늘어남 */
+  max-width: 100%;
 }
 
 .admin-select option {
@@ -131,6 +135,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   padding: 0.9rem;
+  min-width: 0;              /* 패널이 부모 폭을 초과하지 않도록 */
+  box-sizing: border-box;
 }
 
 .admin-panel h3 {
@@ -159,6 +165,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  min-width: 0;              /* 그리드 자식 오버플로 방지 */
+}
+
+/* 내부 패널도 오버플로 방지 */
+.admin-section-grid > * {
+  min-width: 0;
 }
 
 .admin-stat-grid {
@@ -186,16 +198,17 @@
 }
 
 .admin-table-wrap {
-  overflow: auto;
+  overflow-x: auto;          /* 테이블이 정말 좁은 화면에서만 가로 스크롤 */
   background: rgba(26, 26, 26, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
+  max-width: 100%;           /* 부모 폭을 초과하지 않도록 */
 }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;         /* 테이블 최소 폭을 줄여 가로 스크롤 최소화 */
+  /* min-width 제거: 컨테이너 폭에 맞춰 자동 축소 */
 }
 
 .admin-table th,
@@ -205,7 +218,8 @@
   text-align: left;
   font-size: 0.8rem;
   padding: 0.58rem 0.52rem;
-  white-space: nowrap;
+  white-space: normal;       /* nowrap 제거: 긴 텍스트가 줄바꿈되어 컨테이너 폭에 맞춤 */
+  word-break: break-word;    /* 긴 단어도 줄바꿈 */
 }
 
 .admin-table th {
