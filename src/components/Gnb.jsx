@@ -71,6 +71,12 @@ function GNB() {
                 <span className="gnb-text">DM</span>
               </Link>
             )}
+            {isAuthenticated && user?.role === 'ROLE_ADMIN' && (
+              <Link to="/admin/dashboard" className={`gnb-link ${location.pathname.startsWith('/admin') ? 'active' : ''}`}>
+                <span className="gnb-icon">🛠️</span>
+                <span className="gnb-text">관리자</span>
+              </Link>
+            )}
             <Link to="/about" className={`gnb-link ${location.pathname === '/about' ? 'active' : ''}`}>
               <span className="gnb-icon">📄</span>
               <span className="gnb-text">소개</span>

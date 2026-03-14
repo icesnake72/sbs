@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(git add src/pages/About.jsx src/pages/About.css)",
-      "Bash(git push origin main)"
+      "Bash(git push origin main)",
+      "Bash(ls /Users/eunbumkim/Documents/practice/react/sbs/src/assets/*.png /Users/eunbumkim/Documents/practice/react/sbs/src/assets/*.webp)",
+      "Bash(xargs -I{} basename {})"
     ]
   }
 }
