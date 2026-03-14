@@ -91,8 +91,25 @@ export function AuthProvider({ children }) {
             userData = JSON.parse(savedUser);
           }
 
-          console.log('상태 업데이트 전 - user:', user);
-          console.log('상태 업데이트 전 - accessToken:', accessToken);
+          // ── role이 없으면 프로필 API로 보완 ──
+          // 카카오 로그인 등에서 role이 누락된 경우 서버에서 재조회
+          if (!userData.role) {
+            console.log('user 데이터에 role 없음 - /api/user/profile 호출하여 보완');
+            try {
+              const profileRes = await axios.get('/api/user/profile', {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true,
+              });
+              const profileData = profileRes.data?.data || profileRes.data;
+              if (profileData?.role) {
+                userData = { ...userData, role: profileData.role };
+                console.log('프로필에서 role 복원:', profileData.role);
+              }
+            } catch (profileErr) {
+              console.warn('프로필 조회 실패 (role 보완 불가):', profileErr);
+            }
+          }
+
           console.log('새로 설정할 userData:', userData);
           console.log('새로 설정할 token:', token);
 
