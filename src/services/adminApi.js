@@ -19,6 +19,16 @@ export const adminApi = {
       .then(extractData);
   },
 
+  // 날짜별 통계 (가입자, 게시글, 댓글, 조회수)
+  getDailyStats(accessToken, days = 30) {
+    return axios
+      .get(
+        `${API_CONFIG.baseUrl}/admin/dashboard/daily-stats`,
+        buildAuthConfig(accessToken, { params: { days } })
+      )
+      .then(extractData);
+  },
+
   getRecentUsers(accessToken, limit = 10) {
     return axios
       .get(
